@@ -24,14 +24,18 @@ device_native_thickness = 7.2;   // bar iPad (kun til reference)
 slot_thickness = 12;
 
 /* [Vinkel & stoette] */
-lean_angle   = 18;    // grader fra LODRET (mindre = mere oprejst). 12-25 typisk.
+lean_angle   = 30;    // grader fra LODRET. 30 = god vinkel naar man staar og kigger NED.
+                      //   mere oprejst (12-20) = til skaerm i oejenhoejde
+                      //   mere tilbagelaenet (35-45) = kunde staar taet paa / lav disk
 support_frac = 0.50;  // hvor stor del af iPad-hoejden ryglaenet daekker (0.3-0.6)
-lip_height   = 16;    // hvor hoejt frontkanten griber om iPad'ens underkant (daekker kun rammen)
+lip_height   = 9;     // frontkantens hoejde. Holdes < 10.8*cos(vinkel) saa den KUN
+                      //   daekker rammen (bezel ~10.8 mm), ikke selve skaermen.
 lip_thick    = 7;     // godstykkelse i frontlaeben
 side_grip    = 10;    // hoejde paa sidetapper der fastholder hjoernerne (0 = ingen)
 
 /* [Fundament] */
-base_depth   = 105;   // dybde af fundament (stoerre = mere stabilt mod vip)
+base_depth   = 130;   // dybde af fundament (stoerre = mere stabilt mod vip). Skal
+                      //   vaere stoerre naar iPaden laenes mere tilbage.
 base_height  = 16;    // tykkelse af bundplade (rummer kabelkanal)
 wall_thick   = 9;     // godstykkelse i ryglaenet
 extra_width  = 12;    // ekstra bredde ud over iPad (2 x sidetap). default 2x6
@@ -66,6 +70,11 @@ bx = lip_thick + clear + slot_thickness;        // bagkant af slids ved bunden
 
 echo(str(">> Holder  B x D x H ca. = ", cradle_w, " x ", base_depth, " x ",
          zr + support_h*cos(a) + wall_thick*sin(a), " mm"));
+// Kontrol: laeben maa hoejst daekke rammen (bezel ~10.8 mm) - ikke skaermen
+echo(str(">> Laeben daekker ", lip_height/cos(a), " mm af iPad-fladen (ramme = ~10.8 mm)"));
+// Kontrol: iPad'ens tyngdepunkt skal ligge godt inde paa fundamentet (0..base_depth)
+echo(str(">> iPad tyngdepunkt ", bx + (ipad_h/2)*sin(a) - device_native_thickness/2*cos(a),
+         " mm fra forkant (fundament er ", base_depth, " mm dybt)"));
 
 // ------------------------------------------------------------
 //  2D SIDEPROFIL (X-Z), ekstruderes paa tvaers (Y)

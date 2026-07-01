@@ -20,10 +20,22 @@ Designet i **OpenSCAD** (kode = præcис pasform på millimeteren og nemt at ju
 
 ## Mål (default-design)
 
-- **Holder:** ca. **105 mm dyb × 193 mm bred × 134 mm høj** → passer på MK4S-pladen (250×210×220) med god margin.
+- **Holder:** ca. **130 mm dyb × 193 mm bred × 128 mm høj** → passer på MK4S-pladen (250×210×220) med god margin.
 - **iPad 11:** 248,6 × 179,5 × 7,2 mm. Orientering: **portrait** (stående), USB‑C i bunden.
-- **Lænevinkel:** 18° fra lodret (ret oprejst — godt til en kunde der står ved disken).
+- **Lænevinkel:** **30° fra lodret** (= 60° fra vandret) — god vinkel når man **står og kigger ned** på skærmen ved en disk.
+- **Frontlæbe:** 9 mm → dækker kun iPad'ens ramme (~10,8 mm), **ikke skærmen**.
 - **Slidstykkelse:** 12 mm → regner med iPad **med et tyndt cover**. Se "Tilpas" hvis I bruger bart eller robust cover.
+
+### Hvilken vinkel skal I vælge?
+Princippet: skærmen skal stå ~vinkelret på synslinjen. Tommelfingerregel: **hældning bagover fra lodret ≈ hvor mange grader synslinjen falder under vandret**. For en typisk disk (~95 cm) og en kunde der står ~40–50 cm fra:
+
+| Situation | `lean_angle` (fra lodret) |
+|-----------|---------------------------|
+| Skærm i ~øjenhøjde, mest til at kigge på | 12–20° |
+| **Disk, kunde står og kigger ned (default)** | **30°** |
+| Lav disk / kunde står helt tæt / meget nedad | 35–45° |
+
+> Vigtigt: jo mere I læner den tilbage, jo **lavere** skal `lip_height` være (ellers dækker læben skærm), og jo **dybere** skal `base_depth` være (ellers vælter den bagover). Modellen skriver selv kontroltal i konsollen (læbe-dækning + tyngdepunkt) når I trykker F5.
 
 ## Print på Prusa MK4S
 
@@ -46,10 +58,10 @@ Designet i **OpenSCAD** (kode = præcис pasform på millimeteren og nemt at ju
 | Parameter | Betydning | Tip |
 |-----------|-----------|-----|
 | `slot_thickness` | Tykkelsen slidsen passer til | Bart iPad ≈ **9**, tyndt cover ≈ **12** (default), robust cover ≈ **18**. **Mål jeres cover!** |
-| `lean_angle` | Grader fra lodret | Mindre = mere oprejst. 12–25 typisk. Lavere disk → større vinkel. |
+| `lean_angle` | Grader fra lodret | 30 = default (kigge ned). Mindre = mere oprejst. Se vinkel-tabellen ovenfor. |
 | `orientation` | `"portrait"` / `"landscape"` | Se note om kabel nedenfor. |
 | `support_frac` | Hvor højt ryglænet støtter | 0,5 = halvvejs op. Højere = mere støtte, mere filament. |
-| `lip_height` | Hvor meget frontkanten griber | 16 dækker kun rammen, ikke skærmen. |
+| `lip_height` | Hvor meget frontkanten griber | Hold den < 10,8 × cos(vinkel) så den kun dækker rammen. |
 | `base_depth` | Fundamentets dybde | Større = mere stabilt mod at vippe. |
 | `screw_holes` | Huller til fastskruning | `true` til offentligt brug. |
 | `show_device` | Tegn en "spøgelses‑iPad" | Kun til preview — så kan I se pasformen. |
