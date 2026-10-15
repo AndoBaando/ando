@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Banko Admin · Uniq Perler</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script type="module" src="/static/admin.js"></script>
+</head>
+<body class="admin">
+  <header class="topbar">
+    <div class="brand"><span class="brand-beads" aria-hidden="true"><i></i><i></i><i></i></span> Uniq Perler <b>BANKO</b> <span class="chip">Admin</span></div>
+    <div class="spacer"></div>
+    <a class="chip" href="/skaerm" target="_blank" rel="noopener">📺 Storskærm</a>
+    <span id="conn" class="chip"><span class="dot"></span><span class="label">Ikke forbundet</span></span>
+    <button id="logout" class="btn small secondary" type="button" hidden>Log ud</button>
+  </header>
+
+  <main class="wrap">
+    <section id="login" class="card" hidden>
+      <h1>Admin-login</h1>
+      <form id="login-form" class="stack">
+        <label>Kodeord <input id="password" type="password" autocomplete="current-password" required></label>
+        <button class="btn block" type="submit">Log ind</button>
+      </form>
+    </section>
+
+    <div id="dash" class="admin-grid" hidden>
+      <div class="col">
+        <section class="card">
+          <div class="card-head"><h2>Styring</h2><span id="status-pill" class="badge"></span></div>
+          <div id="stats" class="stat-row"></div>
+          <div id="control" class="stack mt"></div>
+          <form id="manual-form" class="manual-draw mt" hidden>
+            <input id="manual-number" type="number" min="1" max="90" inputmode="numeric" placeholder="Tal fra tromlen" aria-label="Tal fra tromlen">
+            <button class="btn big" type="submit">Registrér</button>
+          </form>
+          <details class="mt">
+            <summary>Nyt spil / indstillinger</summary>
+            <form id="new-game-form" class="stack mt">
+              <div class="grid-2">
+                <label>Plader pr. spiller
+                  <select name="platesPerPlayer">
+                    <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                  </select>
+                </label>
+                <label>Trækning
+                  <select name="drawMode">
+                    <option value="digital">Digital (fair-låst)</option>
+                    <option value="manual">Manuel (fysisk tromle)</option>
+                  </select>
+                </label>
+              </div>
+              <label class="check"><input type="checkbox" name="autoApprove"> Godkend gevinster automatisk</label>
+              <button class="btn danger" type="submit">Start et nyt spil</button>
+              <small class="muted">Det nuværende spil gemmes i historikken, og alle spillere skal hente nye plader.</small>
+            </form>
+          </details>
+        </section>
+
+        <section class="card">
+          <h2>Trukne tal</h2>
+          <div id="board"></div>
+        </section>
+
+        <section class="card">
+          <h2>🤖 Testspillere</h2>
+          <p class="muted">Fyld spillet med testspillere, så I kan øve jer før premieren.</p>
+          <form id="bots-form" class="row">
+            <input name="count" type="number" min="1" max="200" value="25" aria-label="Antal testspillere">
+            <button class="btn secondary" type="submit">Tilføj</button>
+          </form>
+        </section>
+      </div>
+
+      <div class="col">
+        <section class="card">
+          <div class="card-head"><h2>🙋 BANKO-råb</h2><small id="claims-count"></small></div>
+          <div id="claims" class="stack"></div>
+        </section>
+        <section class="card">
+          <h2>🏆 Vindere</h2>
+          <div id="winners"></div>
+        </section>
+        <section class="card">
+          <div class="card-head">
+            <h2>👥 Spillere</h2>
+            <input id="player-filter" type="search" placeholder="Søg spiller…" aria-label="Søg spiller">
+          </div>
+          <div id="players" class="table-wrap"></div>
+        </section>
+      </div>
+
+      <div class="col">
+        <section class="card">
+          <h2>⏰ Pop-up tilbud</h2>
+          <form id="offer-form" class="stack">
+            <label>Overskrift <input name="title" type="text" maxlength="80" required placeholder="Kun de næste 5 minutter!"></label>
+            <label>Tekst <textarea name="text" maxlength="280" placeholder="Miyuki Delica-pakken til halv pris…"></textarea></label>
+            <div class="grid-2">
+              <label>Pris (kr.) <input name="price" type="text" inputmode="decimal"></label>
+              <label>Førpris (kr.) <input name="compareAt" type="text" inputmode="decimal"></label>
+            </div>
+            <label>Link til varen <input name="url" type="url" placeholder="https://www.uniqperler.com/products/…"></label>
+            <label>Billede-link <input name="imageUrl" type="url" placeholder="https://cdn.shopify.com/…"></label>
+            <div class="grid-2">
+              <label>Varighed (min) <input name="durationMin" type="number" min="1" max="60" value="5"></label>
+              <label>Rabat % (personlig) <input name="discountPercent" type="number" min="1" max="90" value="15"></label>
+            </div>
+            <label class="check"><input type="checkbox" name="personal"> Personlig rabatkode til hver spiller (kræver kundekobling)</label>
+            <button class="btn" type="submit">Send pop-up til alle</button>
+          </form>
+          <div id="offers" class="mt"></div>
+        </section>
+
+        <section class="card">
+          <h2>🛍️ Ja tak-lot</h2>
+          <div id="lot-status" class="stack"></div>
+          <details class="mt">
+            <summary>Åbn et nyt lot</summary>
+            <form id="lot-form" class="stack mt">
+              <label>Vare <input name="title" type="text" maxlength="80" required placeholder="Perlemix i glas, 250 g"></label>
+              <div class="grid-2">
+                <label>Live-pris (kr.) <input name="price" type="text" inputmode="decimal" required></label>
+                <label>Førpris (kr.) <input name="compareAt" type="text" inputmode="decimal"></label>
+                <label>Antal på lager <input name="qty" type="number" min="1" value="5"></label>
+                <label>Maks pr. kunde <input name="maxPerPlayer" type="number" min="1" max="10" value="1"></label>
+                <label>Reservér i (timer) <input name="reserveHours" type="number" min="1" max="168" value="48"></label>
+                <label>Shopify variant-ID <input name="variantId" type="text" placeholder="valgfri"></label>
+              </div>
+              <label>Billede-link <input name="imageUrl" type="url" placeholder="https://cdn.shopify.com/…"></label>
+              <button class="btn gold" type="submit">Åbn lot — "Ja tak"</button>
+            </form>
+          </details>
+        </section>
+
+        <section class="card">
+          <h2>Reservationer</h2>
+          <div id="reservations" class="table-wrap"></div>
+        </section>
+
+        <section class="card">
+          <h2>Log</h2>
+          <ul id="feed" class="feed"></ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <div id="toasts" aria-live="polite"></div>
+</body>
+</html>

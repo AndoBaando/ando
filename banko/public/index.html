@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4a1f6e">
+  <title>Uniq Perler Banko</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script type="module" src="/static/player.js"></script>
+</head>
+<body class="player">
+  <header class="topbar">
+    <div class="brand"><span class="brand-beads" aria-hidden="true"><i></i><i></i><i></i></span> Uniq Perler <b>BANKO</b></div>
+    <div class="spacer"></div>
+    <span id="players-chip" class="chip" hidden></span>
+    <span id="conn" class="chip"><span class="dot"></span><span class="label">Forbinder…</span></span>
+  </header>
+
+  <main class="wrap">
+    <section id="join" class="card" hidden>
+      <h1>Velkommen til banko! 🎉</h1>
+      <p>Vælg et brugernavn, så får du dine bankoplader med det samme. Navnet kan ses af de andre spillere og af os, når vi kårer vinderne — så brug gerne et kælenavn frem for dit fulde navn.</p>
+      <div id="link-status" class="stack"></div>
+      <form id="join-form" class="stack mt" novalidate>
+        <label>Dit brugernavn
+          <input id="username" type="text" minlength="3" maxlength="20" autocomplete="nickname" placeholder="fx Perle-Lise" required>
+        </label>
+        <button class="btn block big" type="submit">Hent mine plader</button>
+        <p id="join-error" class="notice danger" role="alert" hidden></p>
+      </form>
+      <p id="join-closed" class="notice mt" hidden>Tilmeldingen er lukket, fordi første tal er trukket. Du kan følge med herunder — vi ses til næste runde!</p>
+    </section>
+
+    <div id="game" class="sections" hidden></div>
+
+    <section id="settings" class="card" hidden>
+      <h2>Indstillinger</h2>
+      <div class="toggles">
+        <label class="toggle"><input type="checkbox" id="pref-auto"> Markér tal automatisk</label>
+        <label class="toggle"><input type="checkbox" id="pref-speak"> Læs tallene højt</label>
+        <label class="toggle"><input type="checkbox" id="pref-big"> Større tekst</label>
+      </div>
+      <p class="muted mt">Slår du automatisk markering fra, trykker du selv på tallene — ligesom med en tusch i bankohallen. Vi tjekker altid din plade på serveren, når du råber BANKO.</p>
+    </section>
+  </main>
+
+  <div id="claim-bar" class="claim-bar" hidden>
+    <div class="inner"><button id="banko" class="banko-btn" type="button">BANKO!</button></div>
+  </div>
+  <div id="toasts" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>
