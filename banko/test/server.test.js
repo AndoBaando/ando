@@ -29,8 +29,8 @@ before(async () => {
   });
 });
 
-after(() => {
-  server?.kill();
+after(async () => {
+  if (server && server.exitCode === null) await new Promise((resolve) => server.once('exit', resolve).kill());
   rmSync(dataDir, { recursive: true, force: true });
 });
 

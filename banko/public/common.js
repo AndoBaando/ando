@@ -43,10 +43,12 @@ export function connectStream(url, { token, onEvent, onStatus, onAuthError }) {
   let stopped = false;
   let controller = null;
   let delay = 1000;
+  let offlineTimer = null;
 
   (async () => {
     while (!stopped) {
       controller = new AbortController();
+      const startedAt = Date.now();
       try {
         const res = await fetch(url, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -60,6 +62,7 @@ export function connectStream(url, { token, onEvent, onStatus, onAuthError }) {
         }
         if (!res.ok || !res.body) throw new Error(`stream ${res.status}`);
         delay = 1000;
+        clearTimeout(offlineTimer);
         onStatus?.(true);
         const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
         let buffer = '';
@@ -83,7 +86,12 @@ export function connectStream(url, { token, onEvent, onStatus, onAuthError }) {
       } catch {
         if (stopped) return;
       }
-      onStatus?.(false);
+      // Hostingen lukker lange forbindelser jævnligt (Railway efter 15 min). Var forbindelsen sund,
+      // genforbinder vi straks og viser først "Genopretter…", hvis det ikke lykkes inden for 2 sek.
+      const wasHealthy = Date.now() - startedAt > 30_000;
+      if (wasHealthy) delay = 300;
+      clearTimeout(offlineTimer);
+      offlineTimer = setTimeout(() => !stopped && onStatus?.(false), wasHealthy ? 2000 : 0);
       await new Promise((r) => setTimeout(r, delay));
       delay = Math.min(delay * 2, 15000);
     }
@@ -92,6 +100,7 @@ export function connectStream(url, { token, onEvent, onStatus, onAuthError }) {
   return {
     stop() {
       stopped = true;
+      clearTimeout(offlineTimer);
       controller?.abort();
     },
   };

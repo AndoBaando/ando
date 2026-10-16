@@ -13,13 +13,17 @@ import { verifyAppProxy, createShopifyClient } from './src/shopify.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(ROOT, 'public');
-const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');
-const PRODUCTION = process.env.NODE_ENV === 'production';
+// På Railway sættes PORT, RAILWAY_PUBLIC_DOMAIN og (med et volume) RAILWAY_VOLUME_MOUNT_PATH automatisk.
+const ON_RAILWAY = Boolean(process.env.RAILWAY_PROJECT_ID || process.env.RAILWAY_ENVIRONMENT_NAME);
+const DATA_DIR = process.env.DATA_DIR || process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(ROOT, 'data');
+const PRODUCTION = process.env.NODE_ENV === 'production' || ON_RAILWAY;
 const PORT = Number(process.env.PORT || 3000);
-const HOST = process.env.HOST || '127.0.0.1';
-const PUBLIC_ORIGIN = (process.env.PUBLIC_ORIGIN || `http://localhost:${PORT}`).replace(/\/$/, '');
+const HOST = process.env.HOST || (PRODUCTION ? '0.0.0.0' : '127.0.0.1');
+const DEFAULT_ORIGIN = process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : `http://localhost:${PORT}`;
+const PUBLIC_ORIGIN = (process.env.PUBLIC_ORIGIN || DEFAULT_ORIGIN).replace(/\/$/, '');
 const SHOP_URL = (process.env.SHOP_URL || 'https://www.uniqperler.com').replace(/\/$/, '');
-const TRUST_PROXY = process.env.TRUST_PROXY === '1';
+// Railways edge-proxy overskriver X-Real-IP/X-Forwarded-For, så de kan stoles på dér.
+const TRUST_PROXY = process.env.TRUST_PROXY === '1' || (ON_RAILWAY && process.env.TRUST_PROXY !== '0');
 const REQUIRE_SHOPIFY_LOGIN = process.env.REQUIRE_SHOPIFY_LOGIN === '1';
 const SHOPIFY_APP_SECRET = process.env.SHOPIFY_APP_SECRET || '';
 
@@ -87,16 +91,18 @@ const profiles = readJsonFile(PROFILES_FILE, {}); // Shopify customerId → { us
 const usedLinkTokens = new Map(); // jti → exp
 
 let saveTimer = null;
+function saveNow() {
+  clearTimeout(saveTimer);
+  saveTimer = null;
+  try {
+    writeJsonAtomic(GAME_FILE, game.toJSON());
+  } catch (err) {
+    console.error('Kunne ikke gemme spillet', err);
+  }
+}
+
 function saveSoon() {
-  if (saveTimer) return;
-  saveTimer = setTimeout(() => {
-    saveTimer = null;
-    try {
-      writeJsonAtomic(GAME_FILE, game.toJSON());
-    } catch (err) {
-      console.error('Kunne ikke gemme spillet', err);
-    }
-  }, 300);
+  if (!saveTimer) saveTimer = setTimeout(saveNow, 300);
 }
 
 // ------------------------------------------------------------------ live-opdateringer (SSE)
@@ -246,6 +252,8 @@ function sendJson(res, status, data) {
 
 function clientIp(req) {
   if (TRUST_PROXY) {
+    const realIp = req.headers['x-real-ip'];
+    if (typeof realIp === 'string' && realIp) return realIp.trim();
     const forwarded = req.headers['x-forwarded-for'];
     if (typeof forwarded === 'string' && forwarded) return forwarded.split(',')[0].trim();
   }
@@ -514,10 +522,23 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+// Ved redeploy/genstart (fx på Railway) gemmes spillet med det samme, så intet tabes.
+// Spillernes forbindelser genopretter sig selv, når serveren er oppe igen.
+function shutdown(signal) {
+  console.log(`${signal} modtaget — gemmer spillet og lukker ned.`);
+  saveNow();
+  for (const s of streams) s.res.end();
+  server.close(() => process.exit(0));
+  setTimeout(() => process.exit(0), 3000).unref();
+}
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
+
 server.listen(PORT, HOST, () => {
   console.log(`Banko kører på ${PUBLIC_ORIGIN}`);
   console.log(`  Spillere:  ${PUBLIC_ORIGIN}/`);
   console.log(`  Admin:     ${PUBLIC_ORIGIN}/admin`);
   console.log(`  Skærm/OBS: ${PUBLIC_ORIGIN}/skaerm`);
   console.log(`  Shopify:   ${shopify ? 'tilsluttet' : 'demo-tilstand (ikke tilsluttet)'}`);
+  console.log(`  Data:      ${DATA_DIR}`);
 });

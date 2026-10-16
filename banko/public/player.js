@@ -5,6 +5,8 @@ import {
 } from './common.js';
 
 const STAGE_ROWS = { 1: 1, 2: 2, 3: 3 };
+// Køb må aldrig påvirke spillet — ellers kan købet tælle som en indsats efter spilleloven.
+const FREE_NOTE = 'Køb er frivilligt og påvirker ikke dine chancer i banko.';
 
 const session = {
   get(key) {
@@ -287,7 +289,8 @@ function lotCard(s, me) {
         h('div', { class: 'price' }, formatKr(lot.price), lot.compareAt ? h('s', null, formatKr(lot.compareAt)) : null),
         h('div', { class: 'stock', 'aria-hidden': 'true' }, stock),
         h('small', null, soldOut ? 'Alle er reserveret' : `${lot.qty} af ${lot.initialQty} tilbage`))),
-    h('div', { class: 'mt' }, action));
+    h('div', { class: 'mt' }, action),
+    h('small', { class: 'muted' }, FREE_NOTE));
 }
 
 async function jaTak(lotId, btn) {
@@ -417,6 +420,7 @@ function openOffer(offer) {
   }
   if (offer.url) actions.append(h('a', { class: `btn ${offer.personal ? 'secondary' : ''} block big`, href: offer.url, target: '_blank', rel: 'noopener' }, 'Se tilbuddet i webshoppen'));
   actions.append(h('button', { class: 'btn ghost block', type: 'button', onclick: () => closeOfferModal(true) }, 'Luk'));
+  actions.append(h('small', { class: 'muted' }, FREE_NOTE));
 
   const modal = h('div', { class: 'modal-backdrop', onclick: (e) => e.target === e.currentTarget && closeOfferModal(true) },
     h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'offer-title' },

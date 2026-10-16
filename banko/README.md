@@ -94,15 +94,45 @@ Koderne oprettes kun for dem, der faktisk trykker. Så er der ingen spam af tusi
 
 **Anbefaling ud fra købshistorik** (næste skridt): Når kontoen er koblet på, kan serveren slå kundens seneste ordrer op via Admin API. Derefter kan den finde passende varer med Shopifys egne anbefalinger (`productRecommendations` med `COMPLEMENTARY`, "Pair it with") og fjerne dem, hun allerede har købt. Det kræver de samme byggeklodser og er ikke lavet endnu.
 
-## ⚠️ Juridisk: tjek med Spillemyndigheden før premieren
+## ⚠️ Juridisk: gratis spil + frivillige tilbud
 
-Efter spilleloven kræver et spil tilladelse, når der både er **indsats**, **præmie** og **tilfældighed**. Gratis banko uden indsats kræver normalt ikke tilladelse. Men hvis deltagelse (eller ekstra plader) kræver et køb, kan købet tælle som indsats, og så kan det blive et lotteri, der kræver tilladelse. Derfor er appen bygget, så **alle kan spille gratis**. Hold også fast i det, hvis I senere giver ekstra plader for køb. Få det bekræftet hos Spillemyndigheden, inden I kører det første rigtige spil med præmier.
+Et spil kræver tilladelse fra Spillemyndigheden, når der både er **indsats**, **præmie** og **tilfældighed**. Spil, hvor man ikke betaler for at deltage, kræver ikke tilladelse. Frivillige tilbud under spillet ændrer ikke på det, så længe købet ikke hænger sammen med spillet. Hold disse regler:
+
+1. **Alle spiller gratis og på lige vilkår.** Samme antal plader til alle, uanset om man køber noget.
+2. **Køb må aldrig give fordele i spillet**: ingen ekstra plader, ingen ekstra chancer, ingen "kun for kunder der har købt".
+3. **Præmien må ikke kræve et køb.** Giv fx en perlepakke sendt gratis eller et gavekort. Undgå "rabatkode" som præmie, for den kræver et køb for at have værdi.
+4. **Tilbuddene er almindelig markedsføring** ved siden af spillet. Appen skriver selv "Det er gratis at spille med" ved tilmelding og "Køb er frivilligt og påvirker ikke dine chancer i banko" ved tilbud og lots.
+
+**Afgift af præmier:** Gratis spil med præmier kan være afgiftspligtige. Arrangøren betaler 17,5 % af den del af præmien, der overstiger 750 kr. for varepræmier og 200 kr. for kontantpræmier. Holder I hver præmie under de grænser, er der ingen afgift. Ellers skal I registreres hos Skattestyrelsen og betale afgiften. Vinderen skal ikke betale skat af præmien. Tjek de aktuelle satser hos Skattestyrelsen.
+
+Skriv korte spilleregler (hvem kan deltage, præmier, hvordan vindere findes og kontaktes), og få modellen bekræftet skriftligt af Spillemyndigheden før premieren.
 
 Kobling af konto og brug af købshistorik til tilbud er behandling af persondata. Nævn det i jeres privatlivspolitik og i spillets betingelser.
 
+## Hosting på Railway
+
+Banko kører som sin **egen service** i det Railway-projekt, hvor I allerede har jeres app. Så kan en fejl i banko aldrig vælte den anden app og omvendt.
+
+1. **Ny service:** I projektet: *+ Create → GitHub Repo →* vælg repoet med `banko/`.
+2. **Settings → Source:** *Root Directory* `/banko`. Sæt *Config file path* til `/banko/railway.json`, for config-filen følger ikke Root Directory. Den giver start-kommando, healthcheck (`/healthz`) og genstart ved fejl.
+3. **Volume:** Højreklik på servicen → *Attach volume*, mount path `/data`. Appen finder selv volumet via `RAILWAY_VOLUME_MOUNT_PATH`, og spillet overlever dermed redeploys.
+4. **Variables:** `ADMIN_PASSWORD` (mindst 12 tegn, ellers starter appen ikke) og `SESSION_SECRET` (en lang tilfældig streng). Shopify-variablerne kommer senere.
+5. **Networking:** *Generate Domain*, eller tilføj fx `banko.uniqperler.com` som custom domain og sæt `PUBLIC_ORIGIN=https://banko.uniqperler.com`.
+
+Det klarer appen selv på Railway:
+- lytter på `0.0.0.0` og Railways `PORT`
+- bruger `RAILWAY_PUBLIC_DOMAIN` som adresse, indtil `PUBLIC_ORIGIN` er sat
+- slår HTTPS-headers (HSTS) til
+- rate-limiter på kundens rigtige IP (`X-Real-IP`)
+
+**Godt at vide:**
+- **Lange forbindelser:** Railway lukker forbindelser efter 15 minutter. Appen genforbinder straks og henter hele spillets tilstand igen, så kunderne mærker det ikke.
+- **Redeploy:** En service med volume har et kort udfald ved hver redeploy. Appen gemmer spillet ved nedlukning, og kunderne kommer automatisk tilbage. **Undgå alligevel at deploye under en live-aften.**
+- **Én instans:** Med volume kører servicen som én instans (ingen replicas). Det rækker til mange tusinde samtidige spillere.
+
 ## Vejen fra prototype til drift
 
-- **Hosting:** Én lille Node-server rækker langt, for SSE kan klare tusindvis af samtidige spillere. Kør den bag HTTPS, fx på Fly.io, Render eller Railway, med en fast disk til `data/`. Sæt `NODE_ENV=production`, `TRUST_PROXY=1` og `PUBLIC_ORIGIN`.
+- **Hosting:** Se "Hosting på Railway" ovenfor. Andre steder: kør bag HTTPS med en fast disk til `data/`, og sæt `NODE_ENV=production`, `TRUST_PROXY=1` og `PUBLIC_ORIGIN`.
 - **Betaling og status:** Tilføj Shopify-webhooks (`orders/create`, `draft_orders/update`), så en reservation vises som "betalt" i admin.
 - **Mange spillere (5.000+):** Flyt tilstanden til Redis eller Postgres, og send kun ændringer i stedet for hele tilstanden ved hvert tal.
 - **Præmier:** Eksportér vindere med kunde-id, eller udsted automatisk et gavekort til vinderen.
@@ -112,11 +142,11 @@ Kobling af konto og brug af købshistorik til tilbud er behandling af persondata
 | Variabel | Betydning |
 |---|---|
 | `ADMIN_PASSWORD` | Admin-kodeord (min. 12 tegn i produktion). Uden det genereres et midlertidigt kodeord, som vises i loggen. |
-| `PORT`, `HOST` | Standard `3000` / `127.0.0.1`. |
-| `PUBLIC_ORIGIN` | Den offentlige adresse, fx `https://banko.uniqperler.com`. |
+| `PORT`, `HOST` | Standard `3000` / `127.0.0.1` (`0.0.0.0` i produktion og på Railway). |
+| `PUBLIC_ORIGIN` | Den offentlige adresse, fx `https://banko.uniqperler.com` (på Railway: `RAILWAY_PUBLIC_DOMAIN`, hvis ikke sat). |
 | `SESSION_SECRET` | Nøgle til tokens (ellers genereres en og gemmes i `data/`). |
-| `DATA_DIR` | Hvor spillet gemmes (standard `./data`). |
-| `TRUST_PROXY=1` | Brug `X-Forwarded-For` til rate limiting bag en proxy. |
+| `DATA_DIR` | Hvor spillet gemmes (standard: Railway-volumet, ellers `./data`). |
+| `TRUST_PROXY=1` | Brug `X-Real-IP`/`X-Forwarded-For` til rate limiting bag en proxy (slået til automatisk på Railway). |
 | `SHOPIFY_SHOP` | `uniqperler.myshopify.com` |
 | `SHOPIFY_CLIENT_ID` | App'ens client ID fra Dev Dashboard. |
 | `SHOPIFY_APP_SECRET` | App'ens client secret. Bruges til at verificere app proxy-kald og til at hente adgangstoken. |
@@ -129,6 +159,7 @@ Kobling af konto og brug af købshistorik til tilbud er behandling af persondata
 
 ```
 server.js            HTTP-server, ruter, live-opdateringer (SSE), Shopify-synk
+railway.json         Railway: start-kommando, healthcheck og genstartspolitik
 src/game.js          Spillets regler og tilstand
 src/plates.js        Generering og tjek af bankoplader
 src/fair.js          Fair trækning (seed → rækkefølge af 1-90)
