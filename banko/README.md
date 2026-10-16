@@ -130,6 +130,23 @@ Det klarer appen selv på Railway:
 - **Redeploy:** En service med volume har et kort udfald ved hver redeploy. Appen gemmer spillet ved nedlukning, og kunderne kommer automatisk tilbage. **Undgå alligevel at deploye under en live-aften.**
 - **Én instans:** Med volume kører servicen som én instans (ingen replicas). Det rækker til mange tusinde samtidige spillere.
 
+## Kapacitet (belastningstest)
+
+Testet med 3.000 samtidige spillere, 90 tal, 300 samtidige "Ja tak" og bølger af BANKO-råb:
+- Alle spillere fik hvert eneste tal, typisk efter 0,1 sekund og højst efter 0,3 sekunder.
+- Ingen forbindelser blev afbrudt.
+- Serveren brugte højst 173 MB hukommelse og cirka 10 % af én CPU-kerne.
+- Der blev sendt cirka 0,2 MB data pr. spiller for en hel aften.
+
+Den mindste instans (0,5-1 vCPU og 512 MB-1 GB RAM) er altså rigeligt. Når mange klikker på samme tid, samles opdateringerne, så der højst sendes 5 i sekundet.
+
+## Tjekliste til live-aftenen
+
+1. **Ingen deploys om onsdagen.** Hverken banko eller andre services i samme projekt fra kl. 12, før liven er slut.
+2. **Generalprøve** samme eftermiddag på den rigtige hosting. Tilføj testspillere, træk nogle tal, og prøv fra en mobil på 4G.
+3. **Overvågning:** En gratis uptime-tjeneste (fx UptimeRobot eller Better Stack) skal kalde `/healthz` hvert minut og sende SMS, hvis den ikke svarer. Hav også hostingens statusside åben.
+4. **Plan B:** Går serveren ned, fortsætter liven. Louisa læser tallene op, kunderne markerer på skærmen, og BANKO råbes i kommentarfeltet. Spillet gemmes løbende, så det fortsætter fra samme tal, når serveren er tilbage, og kunderne kommer automatisk ind igen.
+
 ## Vejen fra prototype til drift
 
 - **Hosting:** Se "Hosting på Railway" ovenfor. Andre steder: kør bag HTTPS med en fast disk til `data/`, og sæt `NODE_ENV=production`, `TRUST_PROXY=1` og `PUBLIC_ORIGIN`.

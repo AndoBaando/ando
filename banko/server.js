@@ -110,6 +110,10 @@ function saveSoon() {
 const streams = new Set();
 const streamsPerIp = new Map();
 let flushScheduled = false;
+let lastFlushAt = 0;
+// Højst 5 udsendelser i sekundet. Et nyt tal sendes straks, men når mange trykker "Ja tak" eller
+// BANKO på samme tid, samles ændringerne i én opdatering i stedet for hundredvis.
+const MIN_FLUSH_INTERVAL_MS = 200;
 
 function sse(res, event, data) {
   res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
@@ -119,8 +123,9 @@ function broadcast() {
   saveSoon();
   if (flushScheduled) return;
   flushScheduled = true;
-  setImmediate(() => {
+  setTimeout(() => {
     flushScheduled = false;
+    lastFlushAt = Date.now();
     const standings = game.standings();
     const pub = game.publicSnapshot(standings);
     let admin = null;
@@ -138,7 +143,7 @@ function broadcast() {
         sse(s.res, 'state', pub);
       }
     }
-  });
+  }, Math.max(0, lastFlushAt + MIN_FLUSH_INTERVAL_MS - Date.now()));
 }
 
 function openStream(req, res, info) {
