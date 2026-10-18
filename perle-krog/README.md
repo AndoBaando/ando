@@ -60,7 +60,35 @@ ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen
 | `perle_krog.stl` | PETG-varianten, klar til print. 1 krog, ligger fladt. |
 | `perle_krog_PLA.stl` | PLA-varianten (forstærket, med "PLA"-mærke), klar til print. |
 | `perle_krog.scad` | Modellen (OpenSCAD). Vælg `variant` øverst i filen. Alle mål kan ændres der. |
+| `print/` | Klar-til-print PrusaSlicer-projekter (3MF) med indstillinger. |
 | `renders/` | Preview-billeder. |
+
+---
+
+## Klar til print: PLA på MK4S (åbn og print)
+
+PrusaSlicer-projekter med krogene placeret på pladen og alle indstillinger gemt i filen:
+
+| Fil | Indhold | Tid | Filament |
+|---|---|---|---|
+| `print/perle_krog_PLA_MK4S_3stk_test.3mf` | 3 stk til test | ca. 40 min | 19 g |
+| `print/perle_krog_PLA_MK4S_18stk.3mf` | fuld plade, 18 stk | ca. 3 t 55 min | 115 g |
+
+![Pladerne](renders/plader_pla.png)
+
+**Indstillinger i filerne:**
+
+- Printer: `Original Prusa MK4S 0.4 nozzle`
+- Print: `0.20mm SPEED @MK4S 0.4`
+- Filament: `Generic PLA` (220 °C, første lag 230 °C, bed 60 °C), som passer til Sunlu PLA
+- **5 perimetre, 4 top- og 4 bundlag.** De er sat direkte på krogen, så de bliver,
+  selvom man skifter print- eller filamentprofil.
+
+**Sådan:** Åbn filen i PrusaSlicer (Fil → Åbn projekt). Spørger den, om indstillingerne fra projektet
+skal indlæses, så svar ja. Tryk **Slice** og send til printeren.
+Har I en High-Flow-dyse, så vælg printerprofilen `MK4S HF0.4`. Krog-indstillingerne følger med.
+
+Tiderne er beregnet med PrusaSlicer og er uden opvarmning og bed-måling (ca. 3–5 min ekstra).
 
 ---
 
