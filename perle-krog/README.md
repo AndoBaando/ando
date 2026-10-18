@@ -73,10 +73,14 @@ PrusaSlicer-projekt med krogen placeret midt på pladen og alle indstillinger ge
 | Fil | Indhold | Tid | Filament |
 |---|---|---|---|
 | `print/perle_krog_PLA_MK4S_1stk.3mf` | 1 krog | ca. 13 min | 6,7 g |
+| `print/perle_krog_PLA_MK4S_18stk.3mf` | fuld plade, 18 stk (max) | ca. 4 t | ca. 120 g |
 
-Flere på én gang: marker krogen, tryk **+** for flere kopier og **A** for at arrangere.
+Den fulde plade er det højeste antal, der kan være på pladen med mindst ca. 3 mm luft mellem
+krogene (alle drejet ens og lagt skråt, så de griber ind i hinanden).
 
-**Indstillinger i filen:**
+![Fuld plade](renders/plade_pla_18stk.png)
+
+**Indstillinger i filerne:**
 
 - Printer: `Original Prusa MK4S 0.4 nozzle`
 - Print: `0.20mm SPEED @MK4S 0.4`
