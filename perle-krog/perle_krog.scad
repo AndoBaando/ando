@@ -17,8 +17,8 @@
 //   som en dyb kop naar krogen HAENGER (bundterne glider ikke af).
 //
 //  To varianter (vaelg 'variant' herunder):
-//   PETG - standard: 5 x 6 mm profil, ca. 4 g, haeng max ca. 2 kg
-//   PLA  - forstaerket: 8 x 7 mm profil, ca. 7 g, haeng max ca. 4 kg,
+//   PETG - standard: 5 x 6 mm profil, haeng max ca. 2 kg
+//   PLA  - forstaerket: 8 x 7 mm profil, haeng max ca. 4 kg,
 //          "PLA" praeget ned i skaftet saa man kan kende krogene fra hinanden
 //
 //  Maal i mm.  F5 = preview, F6 = render, F7 = eksporter STL.
@@ -42,11 +42,11 @@ edge_chamfer  = 0.6;   // fas paa over-/underkant (skaaner snore + modvirker ele
 top_tip       = 6;     // lige spids efter halvcirklen (laengere = sidder sikrere)
 
 /* [Perle-hage (forneden)] */
-hook_d        = 12;    // indv. Ø i hagen (plads til bundternes snore/loekker)
+hook_d        = 15;    // indv. Ø i hagen -> aabning ca. 12-12,5 mm som butikkens metal-kroge
 shank         = variant == "PLA" ? 27 : 25;  // lige stykke mellem de to buer (laengere = mere lodret, mere plast)
 hook_tip      = 4;     // lige spids paa hagen
 hook_wrap     = -1;    // ekstra bue ud over 180 grader. -1 = automatisk ud fra haeldningen
-wrap_margin   = 10;    // (auto) grader under fuld kompensation -> holder hage-aabningen bred
+wrap_margin   = 20;    // (auto) grader under fuld kompensation -> spidsen peger lidt udad = bred aabning
 
 /* [Maerkning] */
 label         = variant == "PLA" ? "PLA" : "";  // tekst praeget ned i skaftet ("" = ingen)

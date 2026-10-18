@@ -18,18 +18,19 @@ Der er **to varianter**:
 | | PETG (standard) | PLA (forstærket) |
 |---|---|---|
 | Fil | `perle_krog.stl` | `perle_krog_PLA.stl` |
-| Størrelse | 51 × 53 × 6 mm | 60 × 61 × 7 mm |
+| Størrelse | 54 × 55 × 6 mm | 63 × 63 × 7 mm |
 | Profil (bredde × tykkelse) | 5 × 6 mm | 8 × 7 mm |
 | Top-krog (om stangen) | Ø 24 mm indv. | Ø 24 mm indv. |
-| Hage (til bundter) | Ø 12 mm, åbning 8,5 mm | Ø 12 mm, åbning 8,1 mm |
+| Hage (til bundter) | Ø 15 mm, åbning 12,5 mm | Ø 15 mm, åbning 12,2 mm |
 | Mærke | ingen | "PLA" præget 0,6 mm ned i skaftet |
-| Vægt | ca. 4 g | ca. 6,4 g |
-| Printtid (MK4S, 0,20 mm SPEED) | ca. 8 min, 20 stk ≈ 2 t 40 min | ca. 13 min, 20 stk ≈ 4 t 25 min |
+| Vægt | ca. 4 g | ca. 6,7 g |
+| Printtid (MK4S, 0,20 mm SPEED) | ca. 8 min | ca. 13 min |
 | Pris i filament | ca. 1 kr. | ca. 1 kr. |
 | Brud (beregnet) | ca. 5 kg | ca. 15 kg |
 | **Hæng max** | **ca. 2 kg** | **ca. 4 kg** |
 
 Top-krogen har 1,8 mm luft om stangen i begge varianter, så den er let at hænge på og tage af.
+Åbningen ind i hagen er 12–12,5 mm, ligesom butikkens metal-kroge (målt 12,4–12,6 mm).
 IKEA's krog er til sammenligning 60 mm høj og må bære 4 kg.
 
 ### Hvorfor er PLA-krogen bygget så kraftigt?
@@ -45,7 +46,7 @@ Mærket sidder midt på skaftet, hvor krogen er mindst belastet, så det ikke sv
 
 En S-krog hænger altid skævt: stangens centrum og hagens centrum lægger sig lodret under
 hinanden (se højre billede). Det gør, at en almindelig S-krogs nederste hage bliver drejet, så
-bundterne lettere glider af. Modellen regner selv hældningen ud (ca. 43–44°) og lader hagen bue
+bundterne lettere glider af. Modellen regner selv hældningen ud (ca. 44–46°) og lader hagen bue
 ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen pegende lige op.
 
 ![Oversigt PETG](renders/oversigt.png)
@@ -67,16 +68,15 @@ ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen
 
 ## Klar til print: PLA på MK4S (åbn og print)
 
-PrusaSlicer-projekter med krogene placeret på pladen og alle indstillinger gemt i filen:
+PrusaSlicer-projekt med krogen placeret midt på pladen og alle indstillinger gemt i filen:
 
 | Fil | Indhold | Tid | Filament |
 |---|---|---|---|
-| `print/perle_krog_PLA_MK4S_3stk_test.3mf` | 3 stk til test | ca. 40 min | 19 g |
-| `print/perle_krog_PLA_MK4S_18stk.3mf` | fuld plade, 18 stk | ca. 3 t 55 min | 115 g |
+| `print/perle_krog_PLA_MK4S_1stk.3mf` | 1 krog | ca. 13 min | 6,7 g |
 
-![Pladerne](renders/plader_pla.png)
+Flere på én gang: marker krogen, tryk **+** for flere kopier og **A** for at arrangere.
 
-**Indstillinger i filerne:**
+**Indstillinger i filen:**
 
 - Printer: `Original Prusa MK4S 0.4 nozzle`
 - Print: `0.20mm SPEED @MK4S 0.4`
@@ -131,7 +131,7 @@ Holder den uden at åbne sig synligt, er I godt dækket ind. Brug ikke test-krog
 | `wall` | 5 / 8 | Godsbredde. Styrken stiger med bredden i anden potens. |
 | `thick` | 6 / 7 | Krogens tykkelse (printhøjde). Styrken stiger lineært. |
 | `shank` | 25 / 27 | Skaftets længde. Længere = hænger mere lodret, lidt mere plastik. |
-| `hook_d` | 12 | Hagens indvendige Ø. Gør den større, hvis bundternes løkker er tykke. |
+| `hook_d` | 15 | Hagens indvendige Ø. Større = bredere åbning (konsollen viser åbningen). |
 | `top_tip` | 6 | Top-spidsens længde. Længere = falder sværere af stangen. |
 | `label` | `""` / `"PLA"` | Tekst præget i skaftet. Fx `"PETG"`, hvis PETG-krogene også skal mærkes. |
 
