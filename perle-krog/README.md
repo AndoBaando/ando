@@ -3,28 +3,53 @@
 Lille S-krog i stil med IKEA's, lavet til vores stativstang (**Ø 22,2 mm**, målt med skydelære).
 Den store top-krog går om stangen, og den lille hage forneden holder perlebundterne.
 
-![Oversigt](renders/oversigt.png)
+Der er **to varianter**:
+
+- **PETG (standard):** lille og let, til op til ca. 2 kg.
+- **PLA (forstærket):** bredere og tykkere, til op til ca. **4 kg**. Den har **"PLA" præget i skaftet**,
+  så man altid kan se, hvilket materiale krogen er lavet af.
+
+![PLA-varianten](renders/iso_pla.png)
 
 ---
 
 ## Nøgletal
 
-| | |
-|---|---|
-| Størrelse | **51 × 53 × 6 mm** (IKEA's er 60 mm høj) |
-| Top-krog (om stangen) | **Ø 24 mm indvendig**: 1,8 mm luft om stangen, så den er let at hænge på og tage af |
-| Hage (til bundter) | **Ø 12 mm indvendig**, åbning ind i hagen 8,5 mm |
-| Vægt | **ca. 4 g PETG** pr. krog |
-| Printtid (MK4S, 0,20 mm SPEED) | **ca. 8 min pr. krog**, 20 stk ≈ 2 t 40 min (80 g) |
-| Pris | ca. 1 kr. i filament pr. krog |
-| Bæreevne (beregnet) | brud ved ca. **5 kg**, så **hæng max ca. 2 kg** pr. krog (fx 40 perlestrenge à 50 g) |
+| | PETG (standard) | PLA (forstærket) |
+|---|---|---|
+| Fil | `perle_krog.stl` | `perle_krog_PLA.stl` |
+| Størrelse | 51 × 53 × 6 mm | 60 × 61 × 7 mm |
+| Profil (bredde × tykkelse) | 5 × 6 mm | 8 × 7 mm |
+| Top-krog (om stangen) | Ø 24 mm indv. | Ø 24 mm indv. |
+| Hage (til bundter) | Ø 12 mm, åbning 8,5 mm | Ø 12 mm, åbning 8,1 mm |
+| Mærke | ingen | "PLA" præget 0,6 mm ned i skaftet |
+| Vægt | ca. 4 g | ca. 6,4 g |
+| Printtid (MK4S, 0,20 mm SPEED) | ca. 8 min, 20 stk ≈ 2 t 40 min | ca. 13 min, 20 stk ≈ 4 t 25 min |
+| Pris i filament | ca. 1 kr. | ca. 1 kr. |
+| Brud (beregnet) | ca. 5 kg | ca. 15 kg |
+| **Hæng max** | **ca. 2 kg** | **ca. 4 kg** |
+
+Top-krogen har 1,8 mm luft om stangen i begge varianter, så den er let at hænge på og tage af.
+IKEA's krog er til sammenligning 60 mm høj og må bære 4 kg.
+
+### Hvorfor er PLA-krogen bygget så kraftigt?
+
+PLA er stærkt, men det **kryber**: under konstant belastning giver det langsomt efter over uger og
+måneder, især når det er varmt. Derfor er PLA-krogen dimensioneret, så den ved 4 kg kun bliver
+belastet med ca. 1/4 af det, den kan holde til på kort sigt. Styrken stiger med bredden i anden potens,
+så det er mest bredden (5 → 8 mm), der er øget. Det giver mest styrke for mindst plastik.
+
+Mærket sidder midt på skaftet, hvor krogen er mindst belastet, så det ikke svækker den.
 
 ## Det smarte: hagen er "hældnings-kompenseret"
 
 En S-krog hænger altid skævt: stangens centrum og hagens centrum lægger sig lodret under
 hinanden (se højre billede). Det gør, at en almindelig S-krogs nederste hage bliver drejet, så
-bundterne lettere glider af. Modellen regner selv hældningen ud (ca. 43°) og lader hagen bue
+bundterne lettere glider af. Modellen regner selv hældningen ud (ca. 43–44°) og lader hagen bue
 ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen pegende lige op.
+
+![Oversigt PETG](renders/oversigt.png)
+![Oversigt PLA](renders/oversigt_pla.png)
 
 ---
 
@@ -32,8 +57,9 @@ ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen
 
 | Fil | Hvad |
 |-----|------|
-| `perle_krog.stl` | Klar til print. 1 krog, ligger fladt. |
-| `perle_krog.scad` | Modellen (OpenSCAD). Alle mål kan ændres øverst i filen. |
+| `perle_krog.stl` | PETG-varianten, klar til print. 1 krog, ligger fladt. |
+| `perle_krog_PLA.stl` | PLA-varianten (forstærket, med "PLA"-mærke), klar til print. |
+| `perle_krog.scad` | Modellen (OpenSCAD). Vælg `variant` øverst i filen. Alle mål kan ændres der. |
 | `renders/` | Preview-billeder. |
 
 ---
@@ -48,31 +74,39 @@ ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen
 - **Brim:** ikke nødvendigt
 - **Mange på én gang:** marker krogen i PrusaSlicer, tryk **+** for flere kopier og **A** for at arrangere.
   Der kan sagtens ligge 20–30 på pladen.
+- **Temperatur:** PETG ca. 230–240 °C / bed 85 °C. Sunlu PLA ca. 210 °C / bed 60 °C
+  (PrusaSlicer-profilen `Generic PLA` passer fint).
 
-### Materiale: PETG (anbefalet)
+### Materiale
 
-- **PETG** er sejt. Overbelastes den, bøjer den, før den knækker, og den "kryber" mindre end PLA
-  ved konstant belastning. Det er det rigtige til kroge, der hænger med vægt hele tiden.
-- **PLA** kan bruges til lette bundter (under ca. 1 kg), men PLA er sprødt og siger "knæk" uden varsel.
+- **PETG** er sejt. Overbelastes den, bøjer den, før den knækker, og den kryber mindre end PLA
+  ved konstant belastning. Det er det bedste til kroge, der hænger med vægt hele tiden.
+- **PLA:** brug **altid PLA-varianten** (`perle_krog_PLA.stl`). Print aldrig PETG-varianten i PLA,
+  for den er for tynd til PLA ved konstant belastning. PLA er sprødt og knækker uden varsel, og det
+  bliver blødt ved ca. 55 °C. Undgå derfor steder med direkte sol, fx et butiksvindue om sommeren.
 
 ### Test først
 
-Print 2–3 stk og hæng **4 kg** på én test-krog i et døgn (fx en pose med perler eller en vandflaske).
-Holder den uden at åbne sig synligt, er I godt dækket ind med de 2 kg i daglig brug.
+Print 2–3 stk af den variant, I skal bruge, og hæng **dobbelt last** på én test-krog i et døgn:
+**4 kg** på PETG-krogen eller **8 kg** på PLA-krogen (fx en pose perler eller vandflasker).
+Holder den uden at åbne sig synligt, er I godt dækket ind. Brug ikke test-krogen bagefter.
 
 ---
 
 ## Justering (i `perle_krog.scad`)
 
-| Parameter | Default | Hvad |
+| Parameter | PETG / PLA | Hvad |
 |---|---|---|
+| `variant` | `"PETG"` | Vælg `"PETG"` eller `"PLA"`. Sætter `wall`, `thick`, `shank` og `label`. |
 | `rod_d` | 22,2 | Stangens diameter. Mål en anden stang og skriv tallet her. |
 | `rod_clearance` | 1,8 | Luft om stangen. Mindre = sidder strammere. |
-| `thick` | 6 | Krogens tykkelse. **8 = ca. 33 % stærkere** (ca. 5,3 g). |
-| `wall` | 5 | Godsbredde. 6 = ca. 40 % stærkere, men lidt større krog. |
+| `wall` | 5 / 8 | Godsbredde. Styrken stiger med bredden i anden potens. |
+| `thick` | 6 / 7 | Krogens tykkelse (printhøjde). Styrken stiger lineært. |
+| `shank` | 25 / 27 | Skaftets længde. Længere = hænger mere lodret, lidt mere plastik. |
 | `hook_d` | 12 | Hagens indvendige Ø. Gør den større, hvis bundternes løkker er tykke. |
-| `shank` | 25 | Skaftets længde. 35 = hænger mere lodret (ca. 33°), ca. +0,4 g. |
 | `top_tip` | 6 | Top-spidsens længde. Længere = falder sværere af stangen. |
+| `label` | `""` / `"PLA"` | Tekst præget i skaftet. Fx `"PETG"`, hvis PETG-krogene også skal mærkes. |
 
 Åbn filen i OpenSCAD, ret tallet, tryk **F6** (render) og **F7** (eksportér STL).
+Fra kommandolinjen: `openscad -D 'variant="PLA"' -o perle_krog_PLA.stl perle_krog.scad`.
 Konsollen viser hældning og åbninger, så du kan se, at stangen stadig kan komme ind.
