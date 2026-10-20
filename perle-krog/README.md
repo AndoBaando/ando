@@ -82,8 +82,14 @@ Har I en High-Flow-dyse, så vælg printerprofilen `MK4S HF0.4`. Krog-indstillin
 ### ⚠️ PETG og printpladen
 
 PETG hæfter **meget** godt. På en **glat PEI-plade** skal der lim-stift på som slip-lag, ellers kan
-PETG rive stykker af belægningen, når krogene tages af. På en **teksturet eller satin-plade** er
-der ingen problemer. Lad pladen køle af, før krogene tages af.
+PETG rive stykker af belægningen, når krogene tages af. På en **teksturet eller satin-plade**
+(standardpladen til MK4S er den matte satin-plade) skal der ikke lim på.
+
+- Rengør pladen med isopropylalkohol (IPA) før print, og tag ikke på printfladen med fingrene.
+  Vask den en gang imellem med opvaskemiddel og varmt vand. **Aldrig acetone** (giver mikrorevner).
+- Lad pladen køle helt af, før krogene tages af. Tag pladen af og bøj den let, så springer de af.
+  Brug ikke skarpe metalskrabere.
+- Den fulde plade går helt ud til kanterne, så rengør hele pladen.
 
 ### Test først
 
