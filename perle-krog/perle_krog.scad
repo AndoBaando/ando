@@ -16,26 +16,26 @@
 //   haeldningen ud og lader hagen bue ekstra rundt, saa hagen staar
 //   som en dyb kop naar krogen HAENGER (bundterne glider ikke af).
 //
-//  To varianter (vaelg 'variant' herunder):
-//   PETG - standard: 5 x 6 mm profil, haeng max ca. 2 kg
-//   PLA  - forstaerket: 8 x 7 mm profil, haeng max ca. 4 kg,
-//          "PLA" praeget ned i skaftet saa man kan kende krogene fra hinanden
+//  To varianter med PRAECIS samme form (vaelg 'variant' herunder).
+//  Eneste forskel er teksten i skaftet, saa man kan kende materialet:
+//   PLA  - "PLA" praeget i skaftet,  haeng max ca. 4 kg
+//   PETG - "PETG" praeget i skaftet, haeng max ca. 4 kg (kryber mindre end PLA)
 //
 //  Maal i mm.  F5 = preview, F6 = render, F7 = eksporter STL.
 //  KOORDINATER: X/Y = krogens plan (pladen), Z = tykkelse (printhoejde)
 // ============================================================
 
 /* [Variant] */
-variant       = "PETG"; // [PETG:PETG - standard (ca. 2 kg), PLA:PLA - forstaerket (ca. 4 kg) med PLA-maerke]
+variant       = "PETG"; // [PETG:PETG-krog, PLA:PLA-krog]
 
 /* [Stang] */
 rod_d         = 22.2;  // maalt stang-diameter
 rod_clearance = 1.8;   // luft rundt om stangen -> indv. Ø = 24 mm (let at haenge paa/af)
 
 /* [Profil - styrke vs. materiale] */
-// PLA er stivere men kryber under konstant last -> bredere gods (styrke ~ bredde^2)
-wall          = variant == "PLA" ? 8 : 5;  // godsbredde i krogens plan (den der baerer boejningen)
-thick         = variant == "PLA" ? 7 : 6;  // tykkelse = printhoejde (krogens bredde langs stangen)
+// Dimensioneret til ca. 4 kg i PLA (som kryber under konstant last) - PETG faar samme form
+wall          = 8;     // godsbredde i krogens plan (den der baerer boejningen, styrke ~ bredde^2)
+thick         = 7;     // tykkelse = printhoejde (krogens bredde langs stangen)
 edge_chamfer  = 0.6;   // fas paa over-/underkant (skaaner snore + modvirker elefantfod)
 
 /* [Top-krog (om stangen)] */
@@ -43,13 +43,13 @@ top_tip       = 6;     // lige spids efter halvcirklen (laengere = sidder sikrer
 
 /* [Perle-hage (forneden)] */
 hook_d        = 15;    // indv. Ø i hagen -> aabning ca. 12-12,5 mm som butikkens metal-kroge
-shank         = variant == "PLA" ? 27 : 25;  // lige stykke mellem de to buer (laengere = mere lodret, mere plast)
+shank         = 27;    // lige stykke mellem de to buer (laengere = mere lodret, mere plast)
 hook_tip      = 4;     // lige spids paa hagen
 hook_wrap     = -1;    // ekstra bue ud over 180 grader. -1 = automatisk ud fra haeldningen
 wrap_margin   = 20;    // (auto) grader under fuld kompensation -> spidsen peger lidt udad = bred aabning
 
 /* [Maerkning] */
-label         = variant == "PLA" ? "PLA" : "";  // tekst praeget ned i skaftet ("" = ingen)
+label         = variant;  // tekst praeget ned i skaftet: "PLA" eller "PETG" ("" = ingen)
 label_size    = 4.5;   // skriftstoerrelse
 label_depth   = 0.6;   // dybde (3 lag a 0,2 mm)
 label_font    = "Liberation Sans:style=Bold";

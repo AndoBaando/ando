@@ -1,56 +1,95 @@
 # Perle-krog (S-krog) til stativstangen
 
-Lille S-krog i stil med IKEA's, lavet til vores stativstang (**Ø 22,2 mm**, målt med skydelære).
-Den store top-krog går om stangen, og den lille hage forneden holder perlebundterne.
+S-krog i stil med IKEA's, lavet til vores stativstang (**Ø 22,2 mm**, målt med skydelære).
+Den store top-krog går om stangen, og hagen forneden holder perlebundterne. Åbningen ind i hagen
+er ca. 12 mm, ligesom butikkens metal-kroge (målt 12,4–12,6 mm).
 
-Der er **to varianter**:
+Krogen findes i **PLA** og **PETG** med **præcis samme form**. Den eneste forskel er teksten i
+skaftet, så man altid kan se, hvilket materiale krogen er lavet af.
 
-- **PETG (standard):** lille og let, til op til ca. 2 kg.
-- **PLA (forstærket):** bredere og tykkere, til op til ca. **4 kg**. Den har **"PLA" præget i skaftet**,
-  så man altid kan se, hvilket materiale krogen er lavet af.
-
-![PLA-varianten](renders/iso_pla.png)
+| PLA | PETG |
+|---|---|
+| ![PLA-krog](renders/iso_pla.png) | ![PETG-krog](renders/iso_petg.png) |
 
 ---
 
 ## Nøgletal
 
-| | PETG (standard) | PLA (forstærket) |
+| | PLA | PETG |
 |---|---|---|
-| Fil | `perle_krog.stl` | `perle_krog_PLA.stl` |
-| Størrelse | 54 × 55 × 6 mm | 63 × 63 × 7 mm |
-| Profil (bredde × tykkelse) | 5 × 6 mm | 8 × 7 mm |
-| Top-krog (om stangen) | Ø 24 mm indv. | Ø 24 mm indv. |
-| Hage (til bundter) | Ø 15 mm, åbning 12,5 mm | Ø 15 mm, åbning 12,2 mm |
-| Mærke | ingen | "PLA" præget 0,6 mm ned i skaftet |
-| Vægt | ca. 4 g | ca. 6,7 g |
-| Printtid (MK4S, 0,20 mm SPEED) | ca. 8 min | ca. 13 min |
-| Pris i filament | ca. 1 kr. | ca. 1 kr. |
-| Brud (beregnet) | ca. 5 kg | ca. 15 kg |
-| **Hæng max** | **ca. 2 kg** | **ca. 4 kg** |
+| Størrelse | 63 × 63 × 7 mm | 63 × 63 × 7 mm |
+| Profil (bredde × tykkelse) | 8 × 7 mm | 8 × 7 mm |
+| Top-krog (om stangen) | Ø 24 mm indv. (1,8 mm luft) | Ø 24 mm indv. (1,8 mm luft) |
+| Hage (til bundter) | Ø 15 mm indv., åbning ca. 12 mm | Ø 15 mm indv., åbning ca. 12 mm |
+| Mærke | "PLA" præget 0,6 mm ned i skaftet | "PETG" præget 0,6 mm ned i skaftet |
+| Vægt | ca. 6,7 g | ca. 6,9 g |
+| Printtid, 1 stk (MK4S) | ca. 13 min | ca. 14 min |
+| Printtid, 18 stk (fuld plade) | ca. 4 t, 120 g | ca. 4 t 10 min, 122 g |
+| Brud (beregnet) | ca. 15 kg | ca. 12–15 kg |
+| **Hæng max** | **ca. 4 kg** | **ca. 4 kg** (tåler konstant last bedre end PLA) |
 
-Top-krogen har 1,8 mm luft om stangen i begge varianter, så den er let at hænge på og tage af.
-Åbningen ind i hagen er 12–12,5 mm, ligesom butikkens metal-kroge (målt 12,4–12,6 mm).
-IKEA's krog er til sammenligning 60 mm høj og må bære 4 kg.
-
-### Hvorfor er PLA-krogen bygget så kraftigt?
-
-PLA er stærkt, men det **kryber**: under konstant belastning giver det langsomt efter over uger og
-måneder, især når det er varmt. Derfor er PLA-krogen dimensioneret, så den ved 4 kg kun bliver
-belastet med ca. 1/4 af det, den kan holde til på kort sigt. Styrken stiger med bredden i anden potens,
-så det er mest bredden (5 → 8 mm), der er øget. Det giver mest styrke for mindst plastik.
-
-Mærket sidder midt på skaftet, hvor krogen er mindst belastet, så det ikke svækker den.
+**PLA vs. PETG:** Begge kroge er bygget til ca. 4 kg. PETG er sejere: overbelastes den, bøjer den,
+før den knækker, og den kryber mindre under konstant vægt og varme. PETG er derfor det bedste valg
+til kroge, der hænger med vægt hele tiden. PLA er sprødt og bliver blødt ved ca. 55 °C, så hæng ikke
+PLA-kroge i direkte sol (fx et butiksvindue om sommeren).
 
 ## Det smarte: hagen er "hældnings-kompenseret"
 
 En S-krog hænger altid skævt: stangens centrum og hagens centrum lægger sig lodret under
 hinanden (se højre billede). Det gør, at en almindelig S-krogs nederste hage bliver drejet, så
-bundterne lettere glider af. Modellen regner selv hældningen ud (ca. 44–46°) og lader hagen bue
-ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen pegende lige op.
+bundterne lettere glider af. Modellen regner selv hældningen ud (ca. 46°) og lader hagen bue
+ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen pegende op.
 
-![Oversigt PETG](renders/oversigt.png)
-![Oversigt PLA](renders/oversigt_pla.png)
+![Oversigt](renders/oversigt.png)
+
+---
+
+## Klar til print på MK4S (åbn og print)
+
+PrusaSlicer-projekter med krogene placeret på pladen og alle indstillinger gemt i filen:
+
+| Fil | Indhold | Tid | Filament |
+|---|---|---|---|
+| `print/perle_krog_PLA_MK4S_1stk.3mf` | 1 PLA-krog | ca. 13 min | 6,7 g |
+| `print/perle_krog_PLA_MK4S_18stk.3mf` | fuld plade, 18 PLA-kroge | ca. 4 t | ca. 120 g |
+| `print/perle_krog_PETG_MK4S_1stk.3mf` | 1 PETG-krog | ca. 14 min | 6,9 g |
+| `print/perle_krog_PETG_MK4S_18stk.3mf` | fuld plade, 18 PETG-kroge | ca. 4 t 10 min | ca. 122 g |
+
+Den fulde plade er det højeste antal, der kan være på pladen med ca. 3 mm luft mellem krogene
+(alle drejet ens og lagt skråt, så de griber ind i hinanden). Tiderne er uden opvarmning og
+bed-måling (ca. 3–5 min ekstra).
+
+![Fuld plade](renders/plade_pla_18stk.png)
+
+**Indstillinger i filerne:**
+
+| | PLA | PETG |
+|---|---|---|
+| Printer | `Original Prusa MK4S 0.4 nozzle` | `Original Prusa MK4S 0.4 nozzle` |
+| Print | `0.20mm SPEED @MK4S 0.4` | `0.20mm SPEED @MK4S 0.4` |
+| Filament | `Generic PLA` | `Generic PETG` |
+| Dyse | 230 °C første lag, derefter 220 °C | 240 °C |
+| Bed | 60 °C | 85 °C første lag, derefter 90 °C |
+| Perimetre / top / bund | **5 / 4 / 4** | **5 / 4 / 4** |
+
+Perimetre og top/bund-lag er sat direkte på krogen, så de bliver, selvom man skifter print- eller
+filamentprofil. Infill er ligegyldigt, fordi krogen næsten er massiv. Ingen support og ingen brim.
+
+**Sådan:** Åbn filen i PrusaSlicer (Fil → Åbn projekt). Spørger den, om indstillingerne fra projektet
+skal indlæses, så svar ja. Tryk **Slice** og send til printeren.
+Har I en High-Flow-dyse, så vælg printerprofilen `MK4S HF0.4`. Krog-indstillingerne følger med.
+
+### ⚠️ PETG og printpladen
+
+PETG hæfter **meget** godt. På en **glat PEI-plade** skal der lim-stift på som slip-lag, ellers kan
+PETG rive stykker af belægningen, når krogene tages af. På en **teksturet eller satin-plade** er
+der ingen problemer. Lad pladen køle af, før krogene tages af.
+
+### Test først
+
+Print 2–3 stk og hæng **8 kg** (dobbelt last) på én test-krog i et døgn (fx en pose perler eller
+vandflasker). Holder den uden at åbne sig synligt, er I godt dækket ind med 4 kg i daglig brug.
+Brug ikke test-krogen bagefter.
 
 ---
 
@@ -58,87 +97,36 @@ ekstra rundt. Når krogen hænger, står hagen derfor som en dyb kop med spidsen
 
 | Fil | Hvad |
 |-----|------|
-| `perle_krog.stl` | PETG-varianten, klar til print. 1 krog, ligger fladt. |
-| `perle_krog_PLA.stl` | PLA-varianten (forstærket, med "PLA"-mærke), klar til print. |
-| `perle_krog.scad` | Modellen (OpenSCAD). Vælg `variant` øverst i filen. Alle mål kan ændres der. |
+| `perle_krog_PLA.stl` | PLA-krogen ("PLA" i skaftet). 1 krog, ligger fladt. |
+| `perle_krog_PETG.stl` | PETG-krogen ("PETG" i skaftet). 1 krog, ligger fladt. |
+| `perle_krog.scad` | Modellen (OpenSCAD). Vælg `variant` øverst i filen. |
 | `print/` | Klar-til-print PrusaSlicer-projekter (3MF) med indstillinger. |
 | `renders/` | Preview-billeder. |
 
----
-
-## Klar til print: PLA på MK4S (åbn og print)
-
-PrusaSlicer-projekt med krogen placeret midt på pladen og alle indstillinger gemt i filen:
-
-| Fil | Indhold | Tid | Filament |
-|---|---|---|---|
-| `print/perle_krog_PLA_MK4S_1stk.3mf` | 1 krog | ca. 13 min | 6,7 g |
-| `print/perle_krog_PLA_MK4S_18stk.3mf` | fuld plade, 18 stk (max) | ca. 4 t | ca. 120 g |
-
-Den fulde plade er det højeste antal, der kan være på pladen med mindst ca. 3 mm luft mellem
-krogene (alle drejet ens og lagt skråt, så de griber ind i hinanden).
-
-![Fuld plade](renders/plade_pla_18stk.png)
-
-**Indstillinger i filerne:**
-
-- Printer: `Original Prusa MK4S 0.4 nozzle`
-- Print: `0.20mm SPEED @MK4S 0.4`
-- Filament: `Generic PLA` (220 °C, første lag 230 °C, bed 60 °C), som passer til Sunlu PLA
-- **5 perimetre, 4 top- og 4 bundlag.** De er sat direkte på krogen, så de bliver,
-  selvom man skifter print- eller filamentprofil.
-
-**Sådan:** Åbn filen i PrusaSlicer (Fil → Åbn projekt). Spørger den, om indstillingerne fra projektet
-skal indlæses, så svar ja. Tryk **Slice** og send til printeren.
-Har I en High-Flow-dyse, så vælg printerprofilen `MK4S HF0.4`. Krog-indstillingerne følger med.
-
-Tiderne er beregnet med PrusaSlicer og er uden opvarmning og bed-måling (ca. 3–5 min ekstra).
-
----
-
-## Print (Prusa MK4S)
+## Print selv fra STL (andre printere)
 
 - **Orientering:** fladt, som STL'en ligger. **Ingen support.** Så følger laglinjerne krogens
   form, og belastningen går *langs* perimetrene. Det er den stærkeste måde at printe en krog på.
-- **Profil:** `0.20mm SPEED`
-- **Perimetre: 5.** Det er det vigtigste, fordi krogen så bliver massiv. Infill er ligegyldigt.
+- **Lag:** 0,2 mm
+- **Perimetre: 5.** Det er det vigtigste, fordi krogen så bliver massiv.
 - **Top/bund:** 4 lag
-- **Brim:** ikke nødvendigt
-- **Mange på én gang:** marker krogen i PrusaSlicer, tryk **+** for flere kopier og **A** for at arrangere.
-  Der kan sagtens ligge 20–30 på pladen.
-- **Temperatur:** PETG ca. 230–240 °C / bed 85 °C. Sunlu PLA ca. 210 °C / bed 60 °C
-  (PrusaSlicer-profilen `Generic PLA` passer fint).
-
-### Materiale
-
-- **PETG** er sejt. Overbelastes den, bøjer den, før den knækker, og den kryber mindre end PLA
-  ved konstant belastning. Det er det bedste til kroge, der hænger med vægt hele tiden.
-- **PLA:** brug **altid PLA-varianten** (`perle_krog_PLA.stl`). Print aldrig PETG-varianten i PLA,
-  for den er for tynd til PLA ved konstant belastning. PLA er sprødt og knækker uden varsel, og det
-  bliver blødt ved ca. 55 °C. Undgå derfor steder med direkte sol, fx et butiksvindue om sommeren.
-
-### Test først
-
-Print 2–3 stk af den variant, I skal bruge, og hæng **dobbelt last** på én test-krog i et døgn:
-**4 kg** på PETG-krogen eller **8 kg** på PLA-krogen (fx en pose perler eller vandflasker).
-Holder den uden at åbne sig synligt, er I godt dækket ind. Brug ikke test-krogen bagefter.
 
 ---
 
 ## Justering (i `perle_krog.scad`)
 
-| Parameter | PETG / PLA | Hvad |
+| Parameter | Værdi | Hvad |
 |---|---|---|
-| `variant` | `"PETG"` | Vælg `"PETG"` eller `"PLA"`. Sætter `wall`, `thick`, `shank` og `label`. |
+| `variant` | `"PETG"` / `"PLA"` | Vælger teksten i skaftet. Formen er den samme. |
 | `rod_d` | 22,2 | Stangens diameter. Mål en anden stang og skriv tallet her. |
 | `rod_clearance` | 1,8 | Luft om stangen. Mindre = sidder strammere. |
-| `wall` | 5 / 8 | Godsbredde. Styrken stiger med bredden i anden potens. |
-| `thick` | 6 / 7 | Krogens tykkelse (printhøjde). Styrken stiger lineært. |
-| `shank` | 25 / 27 | Skaftets længde. Længere = hænger mere lodret, lidt mere plastik. |
+| `wall` | 8 | Godsbredde. Styrken stiger med bredden i anden potens. |
+| `thick` | 7 | Krogens tykkelse (printhøjde). Styrken stiger lineært. |
+| `shank` | 27 | Skaftets længde. Længere = hænger mere lodret, lidt mere plastik. |
 | `hook_d` | 15 | Hagens indvendige Ø. Større = bredere åbning (konsollen viser åbningen). |
 | `top_tip` | 6 | Top-spidsens længde. Længere = falder sværere af stangen. |
-| `label` | `""` / `"PLA"` | Tekst præget i skaftet. Fx `"PETG"`, hvis PETG-krogene også skal mærkes. |
+| `label` | = `variant` | Tekst præget i skaftet. |
 
 Åbn filen i OpenSCAD, ret tallet, tryk **F6** (render) og **F7** (eksportér STL).
-Fra kommandolinjen: `openscad -D 'variant="PLA"' -o perle_krog_PLA.stl perle_krog.scad`.
 Konsollen viser hældning og åbninger, så du kan se, at stangen stadig kan komme ind.
+Fra kommandolinjen: `openscad -D 'variant="PETG"' -o perle_krog_PETG.stl perle_krog.scad`.
