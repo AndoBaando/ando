@@ -1,7 +1,7 @@
-# Perle-krog v3 (S-krog med klik-lås) til stativstangen
+# Perle-krog v3 (S-krog med klik-lås) til stativstangen og perlenettet
 
-S-krog til vores stativstang (**Ø 22,2 mm**, målt med skydelære). Den øverste ring går om stangen,
-og bundterne hænger i den nederste ring.
+S-krog til vores stativstang (**Ø 22,2 mm**, målt med skydelære) **og** perlenettet (**rionet med
+5 mm tråd**). Den øverste ring går om stangen eller tråden, og bundterne hænger i den nederste ring.
 
 **Nyt i v3:**
 
@@ -11,6 +11,10 @@ og bundterne hænger i den nederste ring.
 - **Begge ender er ens.** Samme store ring og åbning i begge ender, så det er ligegyldigt, hvilken
   vej krogen hænges op.
 - **Hænger lige.** Ringene sidder lodret over hinanden, så krogen hænger lodret i stedet for skævt.
+- **Virker også på perlenettet.** Øverst i hver ring er en **tråd-lomme** (6,5 mm bred, 6 mm dyb).
+  Rionet-tråden (5 mm) falder selv op i lommen, når krogen hænger. Krogen skal løftes ca. 6 mm og
+  flyttes til siden for at komme af tråden. Stangen (22,2 mm) hviler bare hen over lommen, så
+  klik-låsen virker som før.
 
 Krogen findes i **PLA** og **PETG** med **præcis samme form**. Den eneste forskel er teksten på
 ringen, så man altid kan se, hvilket materiale krogen er lavet af.
@@ -27,14 +31,15 @@ ringen, så man altid kan se, hvilket materiale krogen er lavet af.
 
 | | PLA | PETG |
 |---|---|---|
-| Størrelse | 43 × 78 × 7 mm | 43 × 78 × 7 mm |
+| Størrelse | 43 × 86 × 7 mm | 43 × 86 × 7 mm |
 | Profil (bredde × tykkelse) | 8 × 7 mm | 8 × 7 mm |
 | Ringe (begge ender) | Ø 27 mm indv., åbning 20,5 mm | Ø 27 mm indv., åbning 20,5 mm |
 | Klik-lås | 1,7 mm (stang 22,2 mm gennem 20,5 mm åbning) | samme |
+| Tråd-lomme (rionet) | 6,5 mm bred, 6 mm dyb | samme |
 | Mærke | "PLA" præget 0,6 mm ned i ringen | "PETG" præget 0,6 mm ned i ringen |
-| Vægt | ca. 7,5 g | ca. 7,7 g |
-| Printtid, 1 stk (MK4S) | ca. 14 min | ca. 15 min |
-| Printtid, 16 stk (fuld plade) | ca. 3 t 50 min, 120 g | ca. 4 t, 123 g |
+| Vægt | ca. 7,9 g | ca. 8,1 g |
+| Printtid, 1 stk (MK4S) | ca. 16 min | ca. 17 min |
+| Printtid, 16 stk (fuld plade) | ca. 4 t 20 min, 127 g | ca. 4 t 30 min, 130 g |
 | Brud (beregnet) | ca. 15 kg | ca. 12–15 kg |
 | **Hæng max** | **ca. 4 kg** | **ca. 4 kg** (tåler konstant last bedre end PLA) |
 
@@ -47,8 +52,11 @@ mest holdbar i PETG. PLA er sprødt og bliver blødt ved ca. 55 °C, så hæng i
 - **På stangen:** Hold krogen, så åbningen i den ene ring vender mod stangen, og tryk den på,
   til den klikker. Lad den så hænge.
 - **Af stangen:** Drej krogen, så åbningen vender væk fra dig, og træk den af med et fast ryk.
+- **På perlenettet (rionet):** Før en vandret tråd ind gennem åbningen i ringen og lad krogen
+  hænge. Tråden glider selv op i lommen i toppen af ringen. Krogen hænger ud på begge sider af
+  nettet, så der skal være ca. 22 mm fri plads bag tråden (hvis nettet sidder op ad en væg).
 - **Bundter:** Før løkken/snoren ind gennem åbningen i den nederste ring. Den glider let ind,
-  fordi snore er tynde. Den hænger i bunden af ringen, og spidsen holder den inde.
+  fordi snore er tynde. Den hænger i bunden af ringen (i lommen), og spidsen holder den inde.
 
 ---
 
@@ -58,10 +66,10 @@ PrusaSlicer-projekter med krogene placeret på pladen og alle indstillinger gemt
 
 | Fil | Indhold | Tid | Filament |
 |---|---|---|---|
-| `print/perle_krog_PLA_MK4S_1stk.3mf` | 1 PLA-krog | ca. 14 min | 7,5 g |
-| `print/perle_krog_PLA_MK4S_16stk.3mf` | fuld plade, 16 PLA-kroge | ca. 3 t 50 min | ca. 120 g |
-| `print/perle_krog_PETG_MK4S_1stk.3mf` | 1 PETG-krog | ca. 15 min | 7,7 g |
-| `print/perle_krog_PETG_MK4S_16stk.3mf` | fuld plade, 16 PETG-kroge | ca. 4 t | ca. 123 g |
+| `print/perle_krog_PLA_MK4S_1stk.3mf` | 1 PLA-krog | ca. 16 min | 7,9 g |
+| `print/perle_krog_PLA_MK4S_16stk.3mf` | fuld plade, 16 PLA-kroge | ca. 4 t 20 min | ca. 127 g |
+| `print/perle_krog_PETG_MK4S_1stk.3mf` | 1 PETG-krog | ca. 17 min | 8,1 g |
+| `print/perle_krog_PETG_MK4S_16stk.3mf` | fuld plade, 16 PETG-kroge | ca. 4 t 30 min | ca. 130 g |
 
 Den fulde plade er det højeste antal, der kan være på pladen med ca. 3 mm luft mellem krogene.
 Tiderne er uden opvarmning og bed-måling (ca. 3–5 min ekstra).
@@ -102,6 +110,7 @@ PETG rive stykker af belægningen, når krogene tages af. På en **teksturet ell
 
 1. **Klik-test:** Print 1 krog og klik den på stangen et par gange. Den skal klikke tydeligt på og
    kræve et fast ryk at få af. Er den for stram eller for løs, så se `snap_gap` herunder.
+   Hæng den også på perlenettet og tjek, at tråden ligger i lommen.
 2. **Belastning:** Hæng **8 kg** (dobbelt last) på én test-krog i et døgn (fx en pose perler eller
    vandflasker). Holder den uden at åbne sig synligt, er I godt dækket ind med 4 kg i daglig brug.
    Brug ikke test-krogen bagefter.
@@ -136,6 +145,8 @@ PETG rive stykker af belægningen, når krogene tages af. På en **teksturet ell
 | `rod_d` | 22,2 | Stangens diameter. Mål en anden stang og skriv tallet her. |
 | `snap_gap` | 20,5 | Åbningen ind i ringene. **For stram at klikke på: 21. For løs: 20.** |
 | `ring_d` | 27 | Ringenes indvendige Ø. |
+| `wire_slot_w` | 6,5 | Tråd-lommens bredde (rionet-tråd 5 mm). |
+| `wire_slot_d` | 6 | Tråd-lommens dybde = hvor meget krogen skal løftes for at komme af tråden. |
 | `wall` | 8 | Godsbredde. Styrken stiger med bredden i anden potens. |
 | `thick` | 7 | Krogens tykkelse (printhøjde). Styrken stiger lineært. |
 | `label` | = `variant` | Tekst præget i ringen. |
