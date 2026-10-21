@@ -4,7 +4,8 @@
 //  Vinkel:   labelen haelder 45 grader mod kunden (laeses oppefra)
 //  Placering: labelen sidder centreret paa bakkens forkant (halvt foran,
 //             halvt over kanten) -> lav, og daekker ikke bakkens indhold
-//  Montering: klemmes ned over bakkens forkant (U-klemme)
+//  Montering: haenger paa bakkens forkant - yderben udvendigt, kun en lille
+//             krog (2 mm) paa indersiden, saa intet gaar ned i rummene
 //  Printer:  Prusa MK4S - printes STAAENDE paa den lukkede ende, ingen support (brim 5 mm)
 //
 //  Maal i mm.  F5 = preview, F6 = render, F7 = eksporter STL.
@@ -23,7 +24,7 @@ bakke = "A"; // [A, B, C, custom]
 
 custom_rim         = 7.0;  // kantens tykkelse
 custom_divider     = 0;    // skillevaeg der skal vaere udskaering over (0 = ingen)
-custom_compartment = 0;    // rum-bredde holderens inderben skal passe ned i (0 = fuld bredde)
+custom_compartment = 0;    // rum-bredde krogen skal passe ned i (0 = fuld bredde)
 
 /* [Label] */
 label_w     = 70;    // labelens bredde
@@ -37,12 +38,13 @@ label_angle = 45;    // grader fra VANDRET (90 = lodret, 0 = fladt)
 //   0   = hele labelen oppe over bakken (hvis bakkerne staar helt taet)
 front_frac  = 0.5;
 
-/* [Klemme] */
-fit      = 0.3;  // ekstra luft ved roden af klemmen (samlet)
+/* [Ophaeng] */
+fit      = 0.3;  // ekstra luft over kanten ved roden (samlet)
 grip     = 0.4;  // klem ved benenes spids (samlet) - stoerre = strammere
-leg_len  = 11;   // hvor langt benene gaar ned over kanten (kanten er ~20)
+leg_len  = 11;   // yderbenet: hvor langt det gaar ned UDEN PAA kanten (kanten er ~20)
+inner_lip = 2;   // krogen paa INDERSIDEN: saa langt gaar den ned i bakken (0 = ingen krog)
 div_clear  = 0.8;  // luft omkring skillevaeggen i udskaeringen (samlet)
-comp_clear = 1.2;  // luft mellem inderben og rummets vaegge (samlet)
+comp_clear = 1.2;  // luft mellem krogen og rummets vaegge (samlet)
 
 /* [Godstykkelser] */
 leg_t    = 1.6;
@@ -72,7 +74,7 @@ function preset(b) =
 P   = preset(bakke);
 t   = P[0];                                   // kantens tykkelse
 nw  = P[1] > 0 ? P[1] + div_clear  : 0;       // udskaering over skillevaeg
-iw  = P[2] > 0 ? P[2] - comp_clear : 0;       // inderbenets bredde (0 = fuld)
+iw  = P[2] > 0 ? P[2] - comp_clear : 0;       // krogens bredde (0 = fuld)
 
 pw   = label_w + label_clear;                 // lommens bredde
 ph   = label_h + label_clear;                 // lommens hoejde (langs skraaningen)
@@ -85,11 +87,11 @@ yc   = -pw/2 + label_w/2;                     // labelens midte naar den ligger 
 a   = label_angle;
 xo  = -fit/2 - leg_t;                         // forside (yderbenets yderside)
 xi0 = -fit/2;                                 // yderbenets inderside ved roden
-xr0 = t + fit/2;                              // inderbenets inderside ved roden
-xr1 = xr0 + leg_t;                            // inderbenets bagside
+xr0 = t + fit/2;                              // krogens inderside (mod bakkens inderside)
+xr1 = xr0 + leg_t;                            // krogens bagside
 s_  = [cos(a), sin(a)];                       // op ad skraaningen
 n_  = [-sin(a), cos(a)];                      // ud mod kunden
-B   = [xo + back_t, bridge_t];                // anker: pladens bagside skaerer klemmens top-forhjoerne
+B   = [xo + back_t, bridge_t];                // anker: pladens bagside skaerer ophaengets top-forhjoerne
 P0  = B - front_frac*Lu*s_;                   // pladens nederste bag-hjoerne
 u_strut = front_frac*Lu + (xr1 - B[0])/cos(a);  // hvor stiveren rammer pladen
 d1  = 2;      // lige stykke ved roden af udskaeringer, derefter 45 grader (printbart)
@@ -102,14 +104,15 @@ top_z   = P0[1] + Lu*sin(a) + vmax*cos(a);
 front_x = P0[0] - vmax*sin(a);                     // forreste punkt
 echo(str(">> Bakke ", bakke, ":  kant ", t, " mm",
          nw > 0 ? str(", udskaering ", nw, " mm over skillevaeg") : "",
-         iw > 0 ? str(", inderben ", iw, " mm (passer i rum)") : ""));
+         iw > 0 ? str(", krog ", iw, " mm bred (passer i rum)") : ""));
 echo(str(">> Holder  B x D x H ca. = ", y1 - y0, " x ",
          P0[0] + Lu*cos(a) - min(front_x, xo), " x ", top_z - min(P0[1], -leg_len), " mm"));
 echo(str(">> Rager ", top_z, " mm op over kanten, ", -front_x, " mm frem foran kanten, ",
-         max(0, P0[0] + Lu*cos(a) - xr1), " mm ind over bakken bag inderbenet"));
+         max(0, P0[0] + Lu*cos(a) - xr1), " mm ind over bakken bag krogen"));
 echo(str(">> Laveste punkt ", -min(P0[1], -leg_len), " mm under kantens top (kanten er ~20 mm)"));
 echo(str(">> Synligt vindue ", pw - lip, " x ", ph - 2*lip, " mm"));
-if (u_strut > Lu - 0.5) echo(">> ADVARSEL: pladen naar ikke ind over inderbenet - ingen stiver");
+echo(str(">> Gaar kun ", inner_lip, " mm ned paa indersiden af kanten (krog) - rummene er fri"));
+if (u_strut > Lu - 0.5) echo(">> ADVARSEL: pladen naar ikke ind over krogen - ingen stiver");
 
 // ------------------------------------------------------------
 //  HJAELPERE
@@ -132,9 +135,11 @@ module outer_leg2d() {
     polygon([[xo, 0.01], [xi0, 0.01],
              [grip/2, -(leg_len - fl_h)], [grip/2 - fl_w, -leg_len], [xo, -leg_len]]);
 }
-module inner_leg2d() {
-    polygon([[xr0, 0.01], [xr1, 0.01], [xr1, -leg_len],
-             [t - grip/2 + fl_w, -leg_len], [t - grip/2, -(leg_len - fl_h)]]);
+module inner_leg2d() {   // kort krog der griber kantens oeverste inderkant
+    ch = min(0.7, inner_lip/2);
+    if (inner_lip > 0)
+        polygon([[xr0, 0.01], [xr1, 0.01], [xr1, -inner_lip],
+                 [xr0 + ch, -inner_lip], [xr0, -inner_lip + ch]]);
 }
 module clip2d() {
     outer_leg2d();
@@ -167,21 +172,22 @@ module window2d() { on_plate() translate([rail + lip, back_t + label_gap - 0.01]
 //  3D-DELE
 // ------------------------------------------------------------
 module inner_leg() {
-    span = leg_len + 1 - d1;
+    dI   = min(d1, inner_lip);
+    span = inner_lip + 1 - dI;
     difference() {
         intersection() {
             ext_y(y0, y1) inner_leg2d();
-            if (iw > 0)   // smallere inderben der passer ned i et rum
+            if (iw > 0)   // smallere krog der passer ned i et rum (centrerer paa rummet)
                 ext_x(xr0 - 1, xr1 + 1)
-                    polygon([[yc - iw/2, 1], [yc + iw/2, 1], [yc + iw/2, -d1],
-                             [yc + iw/2 - span, -leg_len - 1], [yc - iw/2 + span, -leg_len - 1],
-                             [yc - iw/2, -d1]]);
+                    polygon([[yc - iw/2, 1], [yc + iw/2, 1], [yc + iw/2, -dI],
+                             [yc + iw/2 - span, -inner_lip - 1], [yc - iw/2 + span, -inner_lip - 1],
+                             [yc - iw/2, -dI]]);
         }
-        if (nw > 0)       // udskaering over skillevaeg (45 grader nedad = printbar uden support)
+        if (nw > 0)       // udskaering over skillevaeg (centrerer paa skillevaeggen)
             ext_x(t - 0.5, xr1 + 1)
-                polygon([[yc - nw/2, 0.3], [yc + nw/2, 0.3], [yc + nw/2, -d1],
-                         [yc + nw/2 + span, -leg_len - 1], [yc - nw/2 - span, -leg_len - 1],
-                         [yc - nw/2, -d1]]);
+                polygon([[yc - nw/2, 0.3], [yc + nw/2, 0.3], [yc + nw/2, -dI],
+                         [yc + nw/2 + span, -inner_lip - 1], [yc - nw/2 - span, -inner_lip - 1],
+                         [yc - nw/2, -dI]]);
     }
 }
 
