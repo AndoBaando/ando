@@ -1,12 +1,13 @@
 // ============================================================
 //  Skilteholder til bakker  -  parametrisk OpenSCAD-model
-//  Label:    70 x 29 mm, skubbes ind fra siden (labelvindue)
+//  Label:    70 x 29 mm - HELE labelen ses i vinduet (fordybning med kant rundt om,
+//            labelen saettes/klistres ind forfra)
 //  Vinkel:   labelen haelder 45 grader mod kunden (laeses oppefra)
 //  Placering: labelen sidder centreret paa bakkens forkant (halvt foran,
 //             halvt over kanten) -> lav, og daekker ikke bakkens indhold
 //  Montering: haenger paa bakkens forkant - yderben udvendigt, kun en lille
 //             krog (2 mm) paa indersiden, saa intet gaar ned i rummene
-//  Printer:  Prusa MK4S - printes STAAENDE paa den lukkede ende, ingen support (brim 5 mm)
+//  Printer:  Prusa MK4S - printes STAAENDE paa enden, ingen support (brim 5 mm)
 //
 //  Maal i mm.  F5 = preview, F6 = render, F7 = eksporter STL.
 //  KOORDINATER (som den sidder paa bakken):
@@ -29,10 +30,8 @@ custom_compartment = 0;    // rum-bredde krogen skal passe ned i (0 = fuld bredd
 /* [Label] */
 label_w     = 70;    // labelens bredde
 label_h     = 29;    // labelens hoejde
-label_gap   = 1.2;   // lommens dybde (label + evt. tynd plastfolie foran)
-label_clear = 0.6;   // ekstra luft i bredden
-label_clear_h = 1.4; // ekstra luft i hoejden (lommen bliver 30,4 mm -> 29 mm label glider let)
-lip         = 1.0;   // hvor meget rammen overlapper labelens kant (smal -> naesten hele labelen ses)
+label_clear = 0.8;   // luft rundt om labelen (samlet) -> vinduet bliver 70,8 x 29,8 mm
+recess_d    = 0.8;   // vinduets dybde = hoejden paa kanten rundt om labelen
 label_angle = 45;    // grader fra VANDRET (90 = lodret, 0 = fladt)
 // hvor stor del af labelen der sidder FORAN kanten:
 //   0.5 = centreret paa forkanten (default, lav og fri af varerne)
@@ -51,12 +50,11 @@ comp_clear = 1.2;  // luft mellem krogen og rummets vaegge (samlet)
 leg_t    = 1.6;
 bridge_t = 1.6;
 back_t   = 1.4;  // bagpladen bag labelen
-lip_t    = 1.0;  // forkanten der holder labelen
-rail     = 1.2;  // massiv kant under og over labellommen
-end_wall = 1.2;  // lukket ende (stop for labelen)
+rail     = 1.2;  // kant under og over vinduet
+end_wall = 1.4;  // kant i enderne af vinduet
 
 /* [Visning] */
-print_ready = false; // true = drejet til print (staaende paa den lukkede ende)
+print_ready = false; // true = drejet til print (staaende paa enden med endepladen)
 show_tray   = false; // true = vis bakkekant + label (kun preview)
 section     = false; // true = vis kun et tyndt snit paa tvaers (profilen)
 preview_text = "Creoler m. zirkonia";
@@ -77,13 +75,13 @@ t   = P[0];                                   // kantens tykkelse
 nw  = P[1] > 0 ? P[1] + div_clear  : 0;       // udskaering over skillevaeg
 iw  = P[2] > 0 ? P[2] - comp_clear : 0;       // krogens bredde (0 = fuld)
 
-pw   = label_w + label_clear;                 // lommens bredde
-ph   = label_h + label_clear_h;               // lommens hoejde (langs skraaningen)
+pw   = label_w + label_clear;                 // vinduets bredde
+ph   = label_h + label_clear;                 // vinduets hoejde (langs skraaningen)
 Lu   = rail + ph + rail;                      // pladens laengde langs skraaningen
-vmax = back_t + label_gap + lip_t;            // pladens samlede tykkelse
-y0   = -pw/2 - end_wall;                      // lukket ende
-y1   =  pw/2;                                 // aaben ende (labelen skubbes ind her)
-yc   = -pw/2 + label_w/2;                     // labelens midte naar den ligger mod stoppet
+vmax = back_t + recess_d;                     // pladens samlede tykkelse
+y0   = -pw/2 - end_wall;                      // enden med endepladen (ligger paa printpladen)
+y1   =  pw/2 + end_wall;
+yc   = 0;                                     // labelens midte
 
 a   = label_angle;
 xo  = -fit/2 - leg_t;                         // forside (yderbenets yderside)
@@ -111,8 +109,8 @@ echo(str(">> Holder  B x D x H ca. = ", y1 - y0, " x ",
 echo(str(">> Rager ", top_z, " mm op over kanten, ", -front_x, " mm frem foran kanten, ",
          max(0, P0[0] + Lu*cos(a) - xr1), " mm ind over bakken bag krogen"));
 echo(str(">> Laveste punkt ", -min(P0[1], -leg_len), " mm under kantens top (kanten er ~20 mm)"));
-echo(str(">> Lomme ", pw, " x ", ph, " mm (label ", label_w, " x ", label_h, ")  -  synligt vindue ",
-         pw - lip, " x ", ph - 2*lip, " mm"));
+echo(str(">> Vindue ", pw, " x ", ph, " mm, ", recess_d, " mm dybt -> hele labelen ", label_w, " x ", label_h,
+         " mm kan ses"));
 echo(str(">> Gaar kun ", inner_lip, " mm ned paa indersiden af kanten (krog) - rummene er fri"));
 if (u_strut > Lu - 0.5) echo(">> ADVARSEL: pladen naar ikke ind over krogen - ingen stiver");
 
@@ -155,7 +153,7 @@ module clip2d() {
         polygon([[xr0, bridge_t - 0.01], [xr1, bridge_t - 0.01],
                  [xr1, zback(xr1) + 0.5], [xr0, zback(xr0) + 0.5]]);
 }
-// Lukket endeplade (kun i stop-enden): fylder rummet under pladen UDEN for bakken
+// Endeplade (kun i den ene ende): fylder rummet under pladen UDEN for bakken
 // og OVER kanten -> stivere plade og mere flade paa printpladen.
 // Holder 0,6 mm fri af yderbenet, saa benet stadig kan fjedre.
 module end_panel2d() {
@@ -166,9 +164,8 @@ module end_panel2d() {
         polygon([[B[0], bridge_t - 0.01], [xr0 + 0.01, bridge_t - 0.01], [xr0 + 0.01, zback(xr0) + 0.3]]);
 }
 module plate2d()  { on_plate() square([Lu, vmax]); }
-module pocket2d() { on_plate() translate([rail, back_t]) square([ph, label_gap]); }
-module window2d() { on_plate() translate([rail + lip, back_t + label_gap - 0.01])
-                                   square([ph - 2*lip, lip_t + 1]); }
+// vinduets tvaersnit fra bagpladen (v0) og frem (dv)
+module recess2d(v0, dv) { on_plate() translate([rail, v0]) square([ph, dv]); }
 
 // ------------------------------------------------------------
 //  3D-DELE
@@ -201,13 +198,11 @@ module skilteholder() {
             inner_leg();
             ext_y(y0, y1) plate2d();
         }
-        ext_y(-pw/2, y1 + 1) pocket2d();          // lomme (lukket i hoejre ende = stop)
-        ext_y(-pw/2 + lip, y1 + 1) window2d();    // vindue
-        // indfoerings-fas ved den aabne ende
+        // vinduet: fordybning paa 70,8 x 29,8 mm. Enderne er skraa (45 grader),
+        // saa kanten i den oeverste ende kan printes uden support.
         hull() {
-            ext_y(y1 - 1.0, y1 - 0.99) pocket2d();
-            ext_y(y1, y1 + 0.01)
-                on_plate() translate([rail, back_t]) square([ph, label_gap + 0.8]);
+            ext_y(-pw/2, pw/2) recess2d(back_t, 0.01);
+            ext_y(-pw/2 - recess_d, pw/2 + recess_d) recess2d(vmax, 1);
         }
     }
 }
@@ -229,10 +224,10 @@ module tray_ghost() {
     color("white")
         translate([0, yc, 0]) rotate([90, 0, 0]) translate([0, 0, -label_w/2])
             linear_extrude(label_w) on_plate()
-                translate([rail, back_t + 0.2]) square([label_h, 0.2]);   // hviler paa bundkanten
+                translate([rail + label_clear/2, back_t]) square([label_h, 0.15]);   // klistret i vinduet
     // tekst paa labelen: tekst-x = mod kundens hoejre (-Y), tekst-y = op ad skraaningen
-    uc = rail + label_h/2;
-    vf = back_t + 0.4;
+    uc = rail + label_clear/2 + label_h/2;
+    vf = back_t + 0.2;
     color([0.1, 0.1, 0.1])
         multmatrix([[0, cos(a), -sin(a), P0[0] + uc*cos(a) - vf*sin(a)],
                     [-1, 0,     0,       yc],
@@ -245,7 +240,7 @@ module tray_ghost() {
 
 // ------------------------------------------------------------
 if (print_ready) {
-    // staaende paa den lukkede ende -> hele profilen ligger i print-planet
+    // staaende paa enden -> hele profilen ligger i print-planet
     color([0.85, 0.55, 0.15]) translate([0, 0, -y0]) rotate([90, 0, 0]) skilteholder();
     if (show_tray) color([0.3, 0.3, 0.32]) translate([-35, -40, -1]) cube([80, 70, 1]);  // printplade
 } else if (section) {
