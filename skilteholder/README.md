@@ -5,7 +5,7 @@ et **label på 70 × 29 mm** i et labelvindue, der **hælder 45°** mod kunden. 
 den næsten lige forfra, når man står ved bordet og kigger ned.
 
 Labelen sidder **centreret på bakkens forkant**: halvdelen foran kanten og halvdelen over.
-Holderen rager derfor kun ~15 mm op over kanten.
+Holderen rager derfor kun ~16 mm op over kanten.
 
 **Intet går ned i rummene.** Holderen hviler oven på kanten. Benet går ned på
 *ydersiden* af kanten, og på indersiden er der kun en lille **krog på 2 mm**, der griber
@@ -51,9 +51,9 @@ ned på indersiden.
 
 | Fil | Til |
 |-----|-----|
-| `prusa_projekter/skilteholder_A_1stk_test.3mf` | **Testprint**: 1 stk. til bakke A, midt på pladen (~54 min, 9 g) |
+| `prusa_projekter/skilteholder_A_1stk_test.3mf` | **Testprint**: 1 stk. til bakke A, midt på pladen (~53 min, 9 g) |
 | `prusa_projekter/skilteholder_B_1stk_test.3mf` | Testprint: 1 stk. til bakke B (~52 min, 8 g) |
-| `prusa_projekter/skilteholder_C_1stk_test.3mf` | Testprint: 1 stk. til bakke C (~54 min, 9 g) |
+| `prusa_projekter/skilteholder_C_1stk_test.3mf` | Testprint: 1 stk. til bakke C (~53 min, 9 g) |
 | `prusa_projekter/skilteholder_A_16stk.3mf` | **Færdigt PrusaSlicer-projekt**: 16 stk. til bakke A på én plade |
 | `prusa_projekter/skilteholder_B_16stk.3mf` | Færdigt projekt: 16 stk. til bakke B |
 | `prusa_projekter/skilteholder_C_16stk.3mf` | Færdigt projekt: 16 stk. til bakke C |
@@ -76,7 +76,7 @@ færre/flere, så højreklik på objektet → *Sæt antal instanser*.
 
 STL-filerne er også drejet til print, hvis du hellere vil sætte det op selv.
 
-**Mål:** 71,8 mm bred. Holderen rager **~15 mm op** over kanten og **~14 mm frem** foran
+**Mål:** 71,8 mm bred. Holderen rager **~16 mm op** over kanten og **~15 mm frem** foran
 kanten. Den går 11 mm ned på *ydersiden*, så der er ~9 mm luft til bordet. Bakken skal altså
 have ~15 mm fri plads foran sig. Det er der, når den står ved bordkanten, som på billederne.
 
@@ -85,8 +85,14 @@ have ~15 mm fri plads foran sig. Det er der, når den står ved bordkanten, som 
 ## Labelen
 
 - Labelen (70 × 29 mm) **skubbes ind fra venstre side** set forfra. Den højre ende er lukket og virker som stop.
-- Lommen er 1,0 mm dyb. Der er plads til papir-label + evt. et stykke tynd klar plastfolie foran.
-- Rammen overlapper labelens kant med 1,5 mm. Det synlige felt er ca. **69 × 26,6 mm**. Hold teksten lidt fra kanten.
+- **Lommen er 70,6 × 30,4 mm** (målt langs skråningen). Der er 1,4 mm luft til en 29 mm høj label, så den glider let ind.
+- Lommen er 1,2 mm dyb. Der er plads til papir-label + evt. et stykke tynd klar plastfolie foran.
+- Rammen er kun 1 mm bred over lommen. Det synlige felt er **69,6 × 28,4 mm**. Labelen hviler på bundkanten,
+  så kun den nederste 1 mm af en 29 mm label er skjult.
+- Holderen står 45° skråt. Lodret er den derfor kun ca. 27 mm høj (det er det tal, PrusaSlicer viser),
+  men langs skråningen er der plads til hele labelen.
+
+![Mål på labelvinduet](renders/maal_labelvindue.png)
 - **Bakke C med skilte side om side:** Der er kun få mm mellem nabo-holderne. Sæt derfor labelen i,
   *før* holderen sættes på (eller tag den af for at skifte label).
 
@@ -117,9 +123,9 @@ Holderen printes **stående på den lukkede ende**. Så ligger hele profilen i p
 
 | | Tid | Filament |
 |---|---|---|
-| 1 stk. | ~54 min | 9,3 g |
-| **16 stk. på én plade (A eller C)** | **~7 t 50 min** (et natprint) | 147 g |
-| 16 stk. på én plade (B) | ~6 t 20 min | 123 g |
+| 1 stk. | ~53 min | 9,4 g |
+| **16 stk. på én plade (A eller C)** | **~7 t 30 min** (et natprint) | 149 g |
+| 16 stk. på én plade (B) | ~6 t | 124 g |
 
 Tykkere lag (0,28 mm) sparer kun ~10 % tid. Printet er begrænset af flowet, ikke af antal lag.
 Så hold jer til 0,20 mm.
@@ -156,9 +162,11 @@ mål (højde, hvor langt den rager frem osv.).
 | `custom_divider` | Tykkelse på skillevæg der skal være udskæring over (0 = ingen) | 0 |
 | `custom_compartment` | Rum-bredde krogen skal passe ned i (0 = fuld bredde) | 0 |
 | `label_w` / `label_h` | Labelens mål | 70 / 29 |
+| `label_clear_h` | Ekstra luft i lommens højde (lommen = label_h + denne) | 1,4 |
+| `lip` | Hvor meget rammen overlapper labelen | 1,0 |
 | `label_angle` | Hældning fra **vandret**. 35 = fladere, 55 = mere oprejst | 45 |
-| `front_frac` | Hvor meget af labelen der sidder foran kanten. **0,5** = centreret på kanten. **0** = hele labelen oppe over bakken (rager 0 mm frem, men 27 mm op og 14 mm ind over bakken). Brug 0, hvis bakkerne står helt tæt | 0,5 |
-| `label_gap` | Lommens dybde (papir + evt. folie) | 1,0 |
+| `front_frac` | Hvor meget af labelen der sidder foran kanten. **0,5** = centreret på kanten. **0** = hele labelen oppe over bakken (rager 0 mm frem, men ~27 mm op og ~14 mm ind over bakken). Brug 0, hvis bakkerne står helt tæt | 0,5 |
+| `label_gap` | Lommens dybde (papir + evt. folie) | 1,2 |
 | `grip` / `fit` | Hvor tæt den sidder / luft ved roden | 0,4 / 0,3 |
 | `leg_len` | Hvor langt yderbenet går ned *uden på* kanten | 11 |
 | `inner_lip` | Hvor langt krogen går ned på *indersiden* (ind i rummet). 0 = ingen krog | 2 |

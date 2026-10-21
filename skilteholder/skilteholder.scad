@@ -29,9 +29,10 @@ custom_compartment = 0;    // rum-bredde krogen skal passe ned i (0 = fuld bredd
 /* [Label] */
 label_w     = 70;    // labelens bredde
 label_h     = 29;    // labelens hoejde
-label_gap   = 1.0;   // lommens dybde (label + evt. tynd plastfolie foran)
-label_clear = 0.6;   // ekstra luft i bredde og hoejde
-lip         = 1.5;   // hvor meget rammen overlapper labelens kant
+label_gap   = 1.2;   // lommens dybde (label + evt. tynd plastfolie foran)
+label_clear = 0.6;   // ekstra luft i bredden
+label_clear_h = 1.4; // ekstra luft i hoejden (lommen bliver 30,4 mm -> 29 mm label glider let)
+lip         = 1.0;   // hvor meget rammen overlapper labelens kant (smal -> naesten hele labelen ses)
 label_angle = 45;    // grader fra VANDRET (90 = lodret, 0 = fladt)
 // hvor stor del af labelen der sidder FORAN kanten:
 //   0.5 = centreret paa forkanten (default, lav og fri af varerne)
@@ -77,7 +78,7 @@ nw  = P[1] > 0 ? P[1] + div_clear  : 0;       // udskaering over skillevaeg
 iw  = P[2] > 0 ? P[2] - comp_clear : 0;       // krogens bredde (0 = fuld)
 
 pw   = label_w + label_clear;                 // lommens bredde
-ph   = label_h + label_clear;                 // lommens hoejde (langs skraaningen)
+ph   = label_h + label_clear_h;               // lommens hoejde (langs skraaningen)
 Lu   = rail + ph + rail;                      // pladens laengde langs skraaningen
 vmax = back_t + label_gap + lip_t;            // pladens samlede tykkelse
 y0   = -pw/2 - end_wall;                      // lukket ende
@@ -110,7 +111,8 @@ echo(str(">> Holder  B x D x H ca. = ", y1 - y0, " x ",
 echo(str(">> Rager ", top_z, " mm op over kanten, ", -front_x, " mm frem foran kanten, ",
          max(0, P0[0] + Lu*cos(a) - xr1), " mm ind over bakken bag krogen"));
 echo(str(">> Laveste punkt ", -min(P0[1], -leg_len), " mm under kantens top (kanten er ~20 mm)"));
-echo(str(">> Synligt vindue ", pw - lip, " x ", ph - 2*lip, " mm"));
+echo(str(">> Lomme ", pw, " x ", ph, " mm (label ", label_w, " x ", label_h, ")  -  synligt vindue ",
+         pw - lip, " x ", ph - 2*lip, " mm"));
 echo(str(">> Gaar kun ", inner_lip, " mm ned paa indersiden af kanten (krog) - rummene er fri"));
 if (u_strut > Lu - 0.5) echo(">> ADVARSEL: pladen naar ikke ind over krogen - ingen stiver");
 
@@ -227,9 +229,9 @@ module tray_ghost() {
     color("white")
         translate([0, yc, 0]) rotate([90, 0, 0]) translate([0, 0, -label_w/2])
             linear_extrude(label_w) on_plate()
-                translate([rail + label_clear/2, back_t + 0.2]) square([label_h, 0.2]);
+                translate([rail, back_t + 0.2]) square([label_h, 0.2]);   // hviler paa bundkanten
     // tekst paa labelen: tekst-x = mod kundens hoejre (-Y), tekst-y = op ad skraaningen
-    uc = rail + label_clear/2 + label_h/2;
+    uc = rail + label_h/2;
     vf = back_t + 0.4;
     color([0.1, 0.1, 0.1])
         multmatrix([[0, cos(a), -sin(a), P0[0] + uc*cos(a) - vf*sin(a)],
