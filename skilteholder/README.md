@@ -43,6 +43,9 @@ ned på indersiden.
 
 | Fil | Til |
 |-----|-----|
+| `prusa_projekter/skilteholder_A_1stk_test.3mf` | **Testprint**: 1 stk. til bakke A, midt på pladen (~54 min, 9 g) |
+| `prusa_projekter/skilteholder_B_1stk_test.3mf` | Testprint: 1 stk. til bakke B (~52 min, 8 g) |
+| `prusa_projekter/skilteholder_C_1stk_test.3mf` | Testprint: 1 stk. til bakke C (~54 min, 9 g) |
 | `prusa_projekter/skilteholder_A_16stk.3mf` | **Færdigt PrusaSlicer-projekt**: 16 stk. til bakke A på én plade |
 | `prusa_projekter/skilteholder_B_16stk.3mf` | Færdigt projekt: 16 stk. til bakke B |
 | `prusa_projekter/skilteholder_C_16stk.3mf` | Færdigt projekt: 16 stk. til bakke C |
@@ -117,7 +120,7 @@ Så hold jer til 0,20 mm.
 
 ## Prøv først én
 
-Print **én holder** og prøv den på bakken, før I printer en hel plade:
+Print **én holder** (`..._1stk_test.3mf`) og prøv den på bakken, før I printer en hel plade:
 
 - **Slingrer / sidder for løst** → sæt `grip` op fra 0,4 til 0,6–0,8.
 - **For stram / svær at sætte på** → sæt `grip` ned til 0,2, eller `fit` op til 0,5.
