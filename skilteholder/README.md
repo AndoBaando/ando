@@ -11,6 +11,14 @@ Holderen rager derfor kun ~15 mm op over kanten.
 *ydersiden* af kanten, og på indersiden er der kun en lille **krog på 2 mm**, der griber
 kantens øverste inderkant. Rummene (ca. 3 cm dybe) og varerne i dem er helt fri.
 
+**Sæt den på bakkens kortende**, der hvor kunden møder bakken. Teksten vender mod kunden, og
+labelen hælder ind mod rummene. På bakke A (4 rum på tværs af kortenden) sidder udskæringen over
+den midterste skillevæg, så skiltet automatisk sidder midt på enden.
+
+| Set fra kunden ved kortenden | Tæt på |
+|---|---|
+| ![kortende](renders/kortende_A.png) | ![kortende tæt](renders/kortende_A_taet.png) |
+
 ![Sådan ser kunden den](renders/kunde_A.png)
 
 | | |
