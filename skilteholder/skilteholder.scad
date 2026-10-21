@@ -1,7 +1,8 @@
 // ============================================================
 //  Skilteholder til bakker  -  parametrisk OpenSCAD-model
-//  Label:    70 x 29 mm - HELE labelen ses i vinduet (fordybning med kant rundt om,
-//            labelen saettes/klistres ind forfra)
+//  Label:    70 x 29 mm - Brother DK-22210 (29 mm selvklaebende endeloes papirtape,
+//            klippet i 70 mm). HELE labelen ses i vinduet (fordybning med kant rundt
+//            om), labelen klistres ind forfra.
 //  Vinkel:   labelen haelder 45 grader mod kunden (laeses oppefra)
 //  Placering: labelen sidder centreret paa bakkens forkant (halvt foran,
 //             halvt over kanten) -> lav, og daekker ikke bakkens indhold
@@ -28,9 +29,10 @@ custom_divider     = 0;    // skillevaeg der skal vaere udskaering over (0 = ing
 custom_compartment = 0;    // rum-bredde krogen skal passe ned i (0 = fuld bredde)
 
 /* [Label] */
-label_w     = 70;    // labelens bredde
-label_h     = 29;    // labelens hoejde
-label_clear = 0.8;   // luft rundt om labelen (samlet) -> vinduet bliver 70,8 x 29,8 mm
+label_w     = 70;    // labelens bredde (den laengde printeren klipper tapen i)
+label_h     = 29;    // labelens hoejde (= tapens bredde, DK-22210)
+label_clear   = 1.4; // luft i bredden (samlet): printerens klippelaengde varierer lidt -> vindue 71,4 mm
+label_clear_h = 1.0; // luft i hoejden (samlet): kompatible ruller kan vaere lidt bredere -> vindue 30,0 mm
 recess_d    = 0.8;   // vinduets dybde = hoejden paa kanten rundt om labelen
 label_angle = 45;    // grader fra VANDRET (90 = lodret, 0 = fladt)
 // hvor stor del af labelen der sidder FORAN kanten:
@@ -76,7 +78,7 @@ nw  = P[1] > 0 ? P[1] + div_clear  : 0;       // udskaering over skillevaeg
 iw  = P[2] > 0 ? P[2] - comp_clear : 0;       // krogens bredde (0 = fuld)
 
 pw   = label_w + label_clear;                 // vinduets bredde
-ph   = label_h + label_clear;                 // vinduets hoejde (langs skraaningen)
+ph   = label_h + label_clear_h;               // vinduets hoejde (langs skraaningen)
 Lu   = rail + ph + rail;                      // pladens laengde langs skraaningen
 vmax = back_t + recess_d;                     // pladens samlede tykkelse
 y0   = -pw/2 - end_wall;                      // enden med endepladen (ligger paa printpladen)
@@ -198,7 +200,7 @@ module skilteholder() {
             inner_leg();
             ext_y(y0, y1) plate2d();
         }
-        // vinduet: fordybning paa 70,8 x 29,8 mm. Enderne er skraa (45 grader),
+        // vinduet: fordybning paa 71,4 x 30,0 mm. Enderne er skraa (45 grader),
         // saa kanten i den oeverste ende kan printes uden support.
         hull() {
             ext_y(-pw/2, pw/2) recess2d(back_t, 0.01);
@@ -224,9 +226,9 @@ module tray_ghost() {
     color("white")
         translate([0, yc, 0]) rotate([90, 0, 0]) translate([0, 0, -label_w/2])
             linear_extrude(label_w) on_plate()
-                translate([rail + label_clear/2, back_t]) square([label_h, 0.15]);   // klistret i vinduet
+                translate([rail + label_clear_h/2, back_t]) square([label_h, 0.15]);   // klistret i vinduet
     // tekst paa labelen: tekst-x = mod kundens hoejre (-Y), tekst-y = op ad skraaningen
-    uc = rail + label_clear/2 + label_h/2;
+    uc = rail + label_clear_h/2 + label_h/2;
     vf = back_t + 0.2;
     color([0.1, 0.1, 0.1])
         multmatrix([[0, cos(a), -sin(a), P0[0] + uc*cos(a) - vf*sin(a)],

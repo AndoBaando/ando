@@ -51,9 +51,9 @@ ned på indersiden.
 
 | Fil | Til |
 |-----|-----|
-| `prusa_projekter/skilteholder_A_1stk_test.3mf` | **Testprint**: 1 stk. til bakke A, midt på pladen (~54 min, 9 g) |
-| `prusa_projekter/skilteholder_B_1stk_test.3mf` | Testprint: 1 stk. til bakke B (~52 min, 7 g) |
-| `prusa_projekter/skilteholder_C_1stk_test.3mf` | Testprint: 1 stk. til bakke C (~54 min, 9 g) |
+| `prusa_projekter/skilteholder_A_1stk_test.3mf` | **Testprint**: 1 stk. til bakke A, midt på pladen (~55 min, 9 g) |
+| `prusa_projekter/skilteholder_B_1stk_test.3mf` | Testprint: 1 stk. til bakke B (~53 min, 7 g) |
+| `prusa_projekter/skilteholder_C_1stk_test.3mf` | Testprint: 1 stk. til bakke C (~55 min, 9 g) |
 | `prusa_projekter/skilteholder_A_16stk.3mf` | **Færdigt PrusaSlicer-projekt**: 16 stk. til bakke A på én plade |
 | `prusa_projekter/skilteholder_B_16stk.3mf` | Færdigt projekt: 16 stk. til bakke B |
 | `prusa_projekter/skilteholder_C_16stk.3mf` | Færdigt projekt: 16 stk. til bakke C |
@@ -76,7 +76,7 @@ færre/flere, så højreklik på objektet → *Sæt antal instanser*.
 
 STL-filerne er også drejet til print, hvis du hellere vil sætte det op selv.
 
-**Mål:** 73,6 mm bred. Holderen rager **~15 mm op** over kanten og **~14 mm frem** foran
+**Mål:** 74,2 mm bred. Holderen rager **~15 mm op** over kanten og **~14 mm frem** foran
 kanten. Den går 11 mm ned på *ydersiden*, så der er ~9 mm luft til bordet. Bakken skal altså
 have ~15 mm fri plads foran sig. Det er der, når den står ved bordkanten, som på billederne.
 
@@ -84,16 +84,28 @@ have ~15 mm fri plads foran sig. Det er der, når den står ved bordkanten, som 
 
 ## Labelen
 
-- **Vinduet er 70,8 × 29,8 mm** (målt langs skråningen). **Hele labelen på 70 × 29 mm kan være der og ses.**
-  Der er 0,4 mm luft hele vejen rundt.
-- Vinduet er en fordybning med en 0,8 mm høj kant rundt om. Labelen **sættes ind forfra**, og en
-  selvklæbende label klistres bare fast i bunden af vinduet. Kanten gør det nemt at ramme lige.
+Lavet til **Brother QL-1110NWB med DK-22210**: 29 mm bred, selvklæbende, endeløs papirtape
+(permanent klæb). Printeren klipper den i den længde, man vælger, her 70 mm.
+
+- **Vinduet er 71,4 × 30,0 mm** (målt langs skråningen). **Hele labelen på 70 × 29 mm kan være der og ses.**
+  Der er 0,7 mm luft i hver ende, fordi printerens klippelængde varierer lidt. Foroven og forneden er
+  der 0,5 mm luft, fordi kompatible ruller kan være en anelse bredere end 29 mm.
+- Vinduet er en fordybning med en 0,8 mm høj kant rundt om. Labelen **klistres ind forfra** i bunden
+  af vinduet. Kanten gør det nemt at ramme lige.
 - Enderne af vinduet er skrå (45°), så den øverste ende kan printes uden support. Fortil er vinduet
-  derfor lidt bredere (72,4 mm).
+  derfor lidt bredere (73,0 mm).
 - Holderen står 45° skråt. Lodret er den derfor kun ca. 26 mm høj (det er det tal, PrusaSlicer viser),
   men langs skråningen er der plads til hele labelen.
 
 ![Mål på labelvinduet](renders/maal_labelvindue.png)
+
+**Tips til Brother-labelen**
+- I Brother-appen (iPrint&Label) eller P-touch Editor: vælg 29 mm endeløs tape (DK-22210) og sæt
+  længden til **70 mm**.
+- Klæbet er permanent, men det slipper glat PLA. Vil du skifte en label, så pil den af. Eventuelle
+  limrester går af med lidt isopropylalkohol.
+- **Bakke C med skilte i rum ved siden af hinanden:** Holderen er 74,2 mm bred, og rummene er 71,2 mm.
+  Skillevæggene skal altså være mindst 3 mm tykke, for at to holdere kan sidde side om side.
 
 ---
 
@@ -122,9 +134,9 @@ Holderen printes **stående på enden** (enden med den lille endeplade nedad). S
 
 | | Tid | Filament |
 |---|---|---|
-| 1 stk. | ~54 min | 9,0 g |
-| **16 stk. på én plade (A eller C)** | **~7 t 20 min** (et natprint) | 143 g |
-| 16 stk. på én plade (B) | ~5 t 40 min | 117 g |
+| 1 stk. | ~55 min | 9,1 g |
+| **16 stk. på én plade (A eller C)** | **~7 t 45 min** (et natprint) | 144 g |
+| 16 stk. på én plade (B) | ~5 t 45 min | 119 g |
 
 Tykkere lag (0,28 mm) sparer kun ~10 % tid. Printet er begrænset af flowet, ikke af antal lag.
 Så hold jer til 0,20 mm.
@@ -161,7 +173,7 @@ mål (højde, hvor langt den rager frem osv.).
 | `custom_divider` | Tykkelse på skillevæg der skal være udskæring over (0 = ingen) | 0 |
 | `custom_compartment` | Rum-bredde krogen skal passe ned i (0 = fuld bredde) | 0 |
 | `label_w` / `label_h` | Labelens mål | 70 / 29 |
-| `label_clear` | Luft rundt om labelen (samlet). Vinduet = label + denne | 0,8 |
+| `label_clear` / `label_clear_h` | Luft i vinduets bredde / højde (samlet). Vinduet = label + denne | 1,4 / 1,0 |
 | `recess_d` | Vinduets dybde = højden på kanten rundt om labelen | 0,8 |
 | `label_angle` | Hældning fra **vandret**. 35 = fladere, 55 = mere oprejst | 45 |
 | `front_frac` | Hvor meget af labelen der sidder foran kanten. **0,5** = centreret på kanten. **0** = hele labelen oppe over bakken (rager 0 mm frem, men ~27 mm op og ~14 mm ind over bakken). Brug 0, hvis bakkerne står helt tæt | 0,5 |
