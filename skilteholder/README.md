@@ -24,13 +24,10 @@ op i rummene, er stadig frie og synlige.
 | Bakke | Billede | Kantens tykkelse | Andet | Holderens inderben |
 |-------|---------|------------------|-------|--------------------|
 | **A**, velourbakke | 1–3 | **7,0 mm** | rum 56,2 mm, skillevæg **3,4 mm** | **udskæring over midter-skillevæggen**, så skiltet centreres på bakkens midte |
-| **B**, plastkurv | 4 | **2,1 mm** | – | fuld bredde |
+| **B**, plastkurv | 4 | **2,7 mm** | – | fuld bredde |
 | **C**, velourbakke | 5 | **7,0 mm** | rum **71,2 mm** | gjort smallere (70,0 mm), så det **passer ned i ét rum**. Skiltet centreres på rummet, og der kan sidde ét skilt pr. rum |
 
 Alle kanter er ca. 20 mm høje. Benene går 11 mm ned over kanten.
-
-> ⚠️ Displayet på billede 4 og 5 er svært at læse. Jeg har aflæst **2,1 mm** og **7,0 mm**. Mål
-> gerne efter, før I printer mange. Er det forkert, kan tallet rettes på 10 sekunder (se *Tilpas*).
 
 | Bakke A: udskæring over skillevæggen | Bakke C: inderbenet passer i ét rum |
 |---|---|
@@ -43,7 +40,7 @@ Alle kanter er ca. 20 mm høje. Benene går 11 mm ned over kanten.
 | Fil | Til |
 |-----|-----|
 | `skilteholder_A_velourbakke_7mm_skillevaeg.stl` | Bakke A (billede 1–3) |
-| `skilteholder_B_plastkurv_2-1mm.stl` | Bakke B (billede 4) |
+| `skilteholder_B_plastkurv_2-7mm.stl` | Bakke B (billede 4) |
 | `skilteholder_C_velourbakke_7mm_rum71.stl` | Bakke C (billede 5) |
 | `skilteholder.scad` | Den parametriske model. Alle mål ændres her |
 | `renders/` | Preview-billeder |
@@ -141,4 +138,4 @@ Står kunden tæt ved bordet, kigger man ca. 60–70° ned. Står man 1–1,5 m 
 45° ligger midt imellem, så labelen er læsbar fra begge afstande (højst ~25° skævt).
 
 ![Profil bakke B](renders/side_B.png)
-*Snit af B-varianten på den tynde plastkant (2,1 mm)*
+*Snit af B-varianten på den tynde plastkant (2,7 mm)*

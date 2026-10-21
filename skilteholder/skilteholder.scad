@@ -16,7 +16,7 @@
 
 /* [Bakke] */
 // "A" = velourbakke, 7,0 mm kant, midter-skillevaeg 3,4 mm (billede 1-3)
-// "B" = plastkurv, 2,1 mm kant (billede 4)
+// "B" = plastkurv, 2,7 mm kant (billede 4)
 // "C" = velourbakke, 7,0 mm kant, rum 71,2 mm bredt (billede 5)
 // "custom" = brug custom_* nedenfor
 bakke = "A"; // [A, B, C, custom]
@@ -65,7 +65,7 @@ $fn = 32;
 // ------------------------------------------------------------
 function preset(b) =
     b == "A" ? [7.0, 3.4, 0]    :
-    b == "B" ? [2.1, 0,   0]    :
+    b == "B" ? [2.7, 0,   0]    :
     b == "C" ? [7.0, 0,   71.2] :
                [custom_rim, custom_divider, custom_compartment];
 
@@ -142,7 +142,7 @@ module clip2d() {
     // fylder hakket under pladen ved forhjoernet (kun relevant ved front_frac ~ 0)
     polygon([[xo, bridge_t - 0.01], [B[0] + 0.01, bridge_t - 0.01], [xo, bridge_t + back_t/tan(a)]]);
     // kile mellem bro og plade lige bag ankeret (stivere samling)
-    g = min(3, xr0 - B[0]);
+    g = (xr0 - B[0] < 4) ? xr0 - B[0] + 0.01 : 3;   // smal kant: fyld helt ud til stiveren (ingen tynd sprække)
     polygon([[B[0] - 0.01, bridge_t - 0.01], [B[0] + g, bridge_t - 0.01], [B[0] + g, zback(B[0] + g) + 0.3]]);
     if (u_strut <= Lu - 0.5)                                            // stiver op til pladen
         polygon([[xr0, bridge_t - 0.01], [xr1, bridge_t - 0.01],
