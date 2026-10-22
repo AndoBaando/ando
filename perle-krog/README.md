@@ -38,8 +38,8 @@ ringen, så man altid kan se, hvilket materiale krogen er lavet af.
 | Tråd-lomme (rionet) | 6,5 mm bred, 6 mm dyb | samme |
 | Mærke | "PLA" præget 0,6 mm ned i ringen | "PETG" præget 0,6 mm ned i ringen |
 | Vægt | ca. 7,9 g | ca. 8,1 g |
-| Printtid, 1 stk (MK4S) | ca. 16 min | ca. 17 min |
-| Printtid, 16 stk (fuld plade) | ca. 4 t 20 min, 127 g | ca. 4 t 30 min, 130 g |
+| Printtid, 1 stk (MK4S) | ca. 14 min | ca. 15 min |
+| Printtid, 16 stk (fuld plade) | ca. 3 t 35 min, 128 g | ca. 3 t 55 min, 131 g |
 | Brud (beregnet) | ca. 15 kg | ca. 12–15 kg |
 | **Hæng max** | **ca. 4 kg** | **ca. 4 kg** (tåler konstant last bedre end PLA) |
 
@@ -66,10 +66,10 @@ PrusaSlicer-projekter med krogene placeret på pladen og alle indstillinger gemt
 
 | Fil | Indhold | Tid | Filament |
 |---|---|---|---|
-| `print/perle_krog_PLA_MK4S_1stk.3mf` | 1 PLA-krog | ca. 16 min | 7,9 g |
-| `print/perle_krog_PLA_MK4S_16stk.3mf` | fuld plade, 16 PLA-kroge | ca. 4 t 20 min | ca. 127 g |
-| `print/perle_krog_PETG_MK4S_1stk.3mf` | 1 PETG-krog | ca. 17 min | 8,1 g |
-| `print/perle_krog_PETG_MK4S_16stk.3mf` | fuld plade, 16 PETG-kroge | ca. 4 t 30 min | ca. 130 g |
+| `print/perle_krog_PLA_MK4S_1stk.3mf` | 1 PLA-krog | ca. 14 min | 8,0 g |
+| `print/perle_krog_PLA_MK4S_16stk.3mf` | fuld plade, 16 PLA-kroge | ca. 3 t 35 min | ca. 128 g |
+| `print/perle_krog_PETG_MK4S_1stk.3mf` | 1 PETG-krog | ca. 15 min | 8,2 g |
+| `print/perle_krog_PETG_MK4S_16stk.3mf` | fuld plade, 16 PETG-kroge | ca. 3 t 55 min | ca. 131 g |
 
 Den fulde plade er det højeste antal, der kan være på pladen med ca. 3 mm luft mellem krogene.
 Tiderne er uden opvarmning og bed-måling (ca. 3–5 min ekstra).
@@ -81,18 +81,36 @@ Tiderne er uden opvarmning og bed-måling (ca. 3–5 min ekstra).
 | | PLA | PETG |
 |---|---|---|
 | Printer | `Original Prusa MK4S 0.4 nozzle` | `Original Prusa MK4S 0.4 nozzle` |
-| Print | `0.20mm SPEED @MK4S 0.4` | `0.20mm SPEED @MK4S 0.4` |
+| Print | `0.20mm SPEED @MK4S 0.4`, men med **0,28 mm lag** | samme |
 | Filament | `Generic PLA` | `Generic PETG` |
 | Dyse | 230 °C første lag, derefter 220 °C | 240 °C |
 | Bed | 60 °C | 85 °C første lag, derefter 90 °C |
-| Perimetre / top / bund | **5 / 4 / 4** | **5 / 4 / 4** |
+| Lag / perimetre / top / bund | **0,28 mm / 5 / 4 / 4** | **0,28 mm / 5 / 4 / 4** |
 
-Perimetre og top/bund-lag er sat direkte på krogen, så de bliver, selvom man skifter print- eller
+Lagtykkelse, perimetre og top/bund-lag er sat direkte på krogen, så de bliver, selvom man skifter print- eller
 filamentprofil. Infill er ligegyldigt, fordi krogen næsten er massiv. Ingen support og ingen brim.
 
 **Sådan:** Åbn filen i PrusaSlicer (Fil → Åbn projekt). Spørger den, om indstillingerne fra projektet
 skal indlæses, så svar ja. Tryk **Slice** og send til printeren.
 Har I en High-Flow-dyse, så vælg printerprofilen `MK4S HF0.4`. Krog-indstillingerne følger med.
+
+### Printhastighed
+
+Krogene printes med **0,28 mm lag** i stedet for Prusas standard på 0,2 mm. Det giver færre lag
+(25 i stedet for 35) og sparer ca. 15 %. Krogen bliver lige så stærk, fordi belastningen og klik-
+fjedringen går langs perimetrene og ikke på tværs af lagene. Laglinjerne bliver lidt mere synlige.
+
+Målt i PrusaSlicer på en fuld plade med 16 kroge:
+
+| Mulighed | PLA | PETG | Kræver |
+|---|---|---|---|
+| Før (0,2 mm lag) | 4 t 17 min | 4 t 27 min | – |
+| **Nu: 0,28 mm lag** | **3 t 35 min** | **3 t 54 min** | ingenting (er i filerne) |
+| 0,6 mm dyse (0,32 mm lag, 3 perimetre) | 2 t 59 min | 3 t 3 min | 0,6 mm dyse |
+| High-Flow 0,6 mm dyse (0,32 mm lag) | 2 t 18 min | – | Prusa High-Flow 0,6 dyse |
+
+Færre perimetre (3 eller 4 i stedet for 5) sparer kun 3–6 % og gør krogen 10–20 % svagere, så
+det er ikke værd at gøre.
 
 ### Printpladen
 
@@ -131,7 +149,7 @@ PETG rive stykker af belægningen, når krogene tages af. På en **teksturet ell
 
 - **Orientering:** fladt, som STL'en ligger. **Ingen support.** Så følger laglinjerne krogens
   form, og både belastningen og klik-fjedringen går *langs* perimetrene.
-- **Lag:** 0,2 mm
+- **Lag:** 0,28 mm (hurtigere end 0,2 mm og lige så stærkt, se *Printhastighed*)
 - **Perimetre: 5.** Det er det vigtigste, fordi krogen så bliver massiv.
 - **Top/bund:** 4 lag
 
