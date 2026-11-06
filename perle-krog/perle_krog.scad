@@ -30,6 +30,9 @@
 //   "stor"  - 43 x 86 x 7 mm, haeng max ca. 4 kg
 //   "lille" - 36 x 73 x 6 mm, haeng max ca. 2 kg (ringene kan ikke blive meget
 //             mindre, fordi de stadig skal kunne gaa om stangen paa 22,2 mm)
+//   "mini"  - 36 x 58 x 6 mm, haeng max ca. 2 kg. Kun TOPPEN passer paa stang og
+//             rionet; bunden er en lille hage (Ø13, ca. 9 mm aabning) kun til
+//             bundter. Skal haenges den rigtige vej op.
 //
 //  Maal i mm.  F5 = preview, F6 = render, F7 = eksporter STL.
 //  KOORDINATER: X/Y = krogens plan (pladen), Z = tykkelse (printhoejde)
@@ -37,13 +40,20 @@
 
 /* [Variant] */
 variant       = "PETG"; // [PETG:PETG-krog, PLA:PLA-krog]
-size          = "stor"; // [stor:Stor (ca. 4 kg), lille:Lille (ca. 2 kg)]
-small         = size == "lille";
+size          = "stor"; // [stor:Stor (ca. 4 kg), lille:Lille (ca. 2 kg), mini:Mini - kun top til stang/rionet (ca. 2 kg)]
+mini          = size == "mini";
+small         = size == "lille" || mini;
 
 /* [Stang og klik-laas] */
 rod_d         = 22.2;  // maalt stang-diameter
 ring_d        = small ? 24 : 27;    // indv. Ø i begge ringe (luft om stangen, plads til bundter)
 snap_gap      = 20.5;  // aabningen ind i ringen. Mindre end rod_d = klik-laas (22,2 - 20,5 = 1,7 mm)
+
+/* [Mini: hage til bundter forneden] */
+hook_d        = 13;    // indv. Ø i den lille hage (kun "mini")
+hook_tip_a    = 210;   // hvor hagens spids slutter (grader; 180 = vandret ud, stoerre = bredere aabning)
+loop_notch_w  = 4;     // hak i bunden af hagen som snorene falder ned i
+loop_notch_d  = 2.5;
 
 /* [Perlenet (rionet)] */
 wire_slot_w   = 6.5;   // bredde paa traad-lommen (rionet-traad 5 mm, ribbet)
@@ -68,36 +78,50 @@ label_font    = "Liberation Sans:style=Bold";
 $fn = 120;
 
 // ---------- afledte maal ----------
-R    = ring_d / 2;                    // indv. radius
-rc   = R + wall/2;                    // centerlinje-radius
-D    = 2 * rc;                        // afstand mellem ringenes centre (glat S, ringene moedes i midten)
+R    = ring_d / 2;                    // indv. radius, top-ring
+rc   = R + wall/2;                    // centerlinje-radius, top-ring
+R2   = mini ? hook_d / 2 : R;         // indv. radius, bund-ring/hage
+rc2  = R2 + wall/2;
+D    = rc + rc2;                      // afstand mellem ringenes centre (glat S, ringene moedes i midten)
 T    = [0, 0];                        // centrum top-ring (stangen)
 B    = [0, -D];                       // centrum bund-ring (bundter)
 // Top-ringen gaar fra spidsen (vinkel a0) mod uret over toppen og ned til midten (270 grader).
 // Spidsens placering vaelges saa afstanden fra spidsen til bund-ringens yderside = snap_gap:
-//   |spids - B| = rc*sqrt(5 + 4 sin(a0))   ->   gap = |spids - B| - (R + wall) - wall/2
-a0   = asin((pow((snap_gap + R + wall + wall/2) / rc, 2) - 5) / 4);
+//   |spids - B|^2 = rc^2 + 2 rc D sin(a0) + D^2,   gap = |spids - B| - (R2 + wall) - wall/2
+a0   = asin((pow(snap_gap + R2 + 1.5*wall, 2) - rc*rc - D*D) / (2 * rc * D));
 a1   = 270;
+b0   = mini ? hook_tip_a : a0 + 180;  // bund-ringens spids (bund-ringens egne vinkler)
 
 echo(str("Ring: indv. Ø ", ring_d, " mm, aabning ", snap_gap, " mm -> klik-laas ", rod_d - snap_gap, " mm"));
 echo(str("Spidsen sidder ved ", a0, " grader, ringen daekker ", a1 - a0, " grader"));
 seat = R + wire_slot_d - wire_slot_w/2;   // traadens centrum i lommen (fra ringens centrum)
 crown_r = wire_slot_w/2 + crown_t;      // bulens radius
 echo(str("Traad-lomme: ", wire_slot_w, " mm bred, ", wire_slot_d, " mm dyb"));
-echo(str("Krogens hoejde ", D + 2*(seat + crown_r), " mm, bredde ", 2*(R + wall), " mm"));
+bottom = mini ? R2 + wall : seat + crown_r;
+echo(str("Krogens hoejde ", seat + crown_r + D + bottom, " mm, bredde ", 2*(R + wall), " mm"));
+if (mini) echo(str("Hage: indv. Ø ", hook_d, " mm, aabning ",
+    norm(B + pol(rc2, b0)) - (R + wall) - wall/2, " mm"));
 
 // ---------- 2D-byggeklodser ----------
 function pol(r, a) = r * [cos(a), sin(a)];
 
-module ring2d(c, rot) {                   // ring fra den afrundede spids til midten af S'et
+module arc2d(c, r, s0, s1) {               // baand fra den afrundede spids (s0) mod uret til s1
     n = 120;
-    e = 0.5;                              // lille overlap med den anden ring i midten
-    translate(c) rotate(rot) {
+    translate(c) {
         polygon(concat(
-            [for (i = [0:n])  pol(rc + wall/2, a0 + (a1 + e - a0) * i/n)],
-            [for (i = [n:-1:0]) pol(rc - wall/2, a0 + (a1 + e - a0) * i/n)]));
-        translate(pol(rc, a0)) circle(d = wall);
+            [for (i = [0:n])  pol(r + wall/2, s0 + (s1 - s0) * i/n)],
+            [for (i = [n:-1:0]) pol(r - wall/2, s0 + (s1 - s0) * i/n)]));
+        translate(pol(r, s0)) circle(d = wall);
     }
+}
+
+e_j = 0.5;                                // lille overlap mellem ringene i midten
+module top_ring2d()    arc2d(T, rc,  a0, a1 + e_j);
+module bottom_ring2d() arc2d(B, rc2, b0, 450 + e_j);
+
+module notch2d(c) translate(c) {          // hak i bunden af hagen til snorene
+    translate([0, -(R2 + loop_notch_d - loop_notch_w/2)]) circle(d = loop_notch_w);
+    translate([-loop_notch_w/2, -(R2 + loop_notch_d - loop_notch_w/2)]) square([loop_notch_w, loop_notch_d + 1]);
 }
 
 module crown2d(c, rot) translate(c) rotate(rot) difference() {   // bule udenpaa ringens top
@@ -115,13 +139,13 @@ module profile2d() {
     offset(r = 0.8) offset(r = -0.8)
     difference() {
         offset(r = -crown_fillet) offset(r = crown_fillet) union() {
-            ring2d(T, 0);                 // top-ring (om stangen)
-            ring2d(B, 180);               // bund-ring (samme ring drejet 180 grader)
+            top_ring2d();                 // top-ring (om stangen / rionet-traaden)
+            bottom_ring2d();              // bund-ring (samme ring drejet 180 grader) / lille hage
             crown2d(T, 0);
-            crown2d(B, 180);
+            if (!mini) crown2d(B, 180);
         }
         slot2d(T, 0);
-        slot2d(B, 180);
+        if (mini) notch2d(B); else slot2d(B, 180);
     }
 }
 

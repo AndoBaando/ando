@@ -53,7 +53,7 @@ Samme form og funktion (klik-lås på stangen, tråd-lomme til rionet, ens ender
 ringen), bare mindre og lettere. Ringene kan ikke blive meget mindre, fordi de stadig skal kunne
 gå om stangen på 22,2 mm.
 
-![Stor og lille](renders/stor_vs_lille.png)
+![Størrelser](renders/stoerrelser.png)
 
 | | Stor | **Lille** |
 |---|---|---|
@@ -66,6 +66,22 @@ gå om stangen på 22,2 mm.
 | **Hæng max** | ca. 4 kg | **ca. 2 kg** |
 
 Klikket på stangen er lidt blødere på den lille krog (tyndere gods), men den sidder stadig fast.
+
+### Mini (kun én vej op)
+
+Toppen er den samme som på den lille krog (klik-lås på stangen og tråd-lomme til rionet), men
+bunden er en **lille hage kun til bundter**: Ø 13 mm indvendigt med ca. 9 mm åbning og et lille hak
+i bunden, som snorene falder ned i. Krogen skal derfor hænges med den store ring opad.
+
+| | **Mini** |
+|---|---|
+| Størrelse | **33 × 59 × 6 mm** |
+| Vægt (PLA / PETG) | **4,0 / 4,1 g** |
+| Printtid 1 stk (PLA / PETG) | **7 / 8 min** |
+| Fuld plade | **25 stk: 3 t / 3 t 10 min** |
+| **Hæng max** | **ca. 2 kg** |
+
+![Fuld plade, mini](renders/plade_mini.png)
 
 ![Fuld plade, lille](renders/plade_lille.png)
 
@@ -96,6 +112,10 @@ PrusaSlicer-projekter med krogene placeret på pladen og alle indstillinger gemt
 | `print/perle_krog_lille_PLA_MK4S_23stk.3mf` | fuld plade, 23 små PLA-kroge | ca. 3 t 5 min | ca. 112 g |
 | `print/perle_krog_lille_PETG_MK4S_1stk.3mf` | 1 lille PETG-krog | ca. 9 min | 5,0 g |
 | `print/perle_krog_lille_PETG_MK4S_23stk.3mf` | fuld plade, 23 små PETG-kroge | ca. 3 t 20 min | ca. 114 g |
+| `print/perle_krog_mini_PLA_MK4S_1stk.3mf` | 1 mini PLA-krog | ca. 7 min | 4,0 g |
+| `print/perle_krog_mini_PLA_MK4S_25stk.3mf` | fuld plade, 25 mini PLA-kroge | ca. 3 t | ca. 100 g |
+| `print/perle_krog_mini_PETG_MK4S_1stk.3mf` | 1 mini PETG-krog | ca. 8 min | 4,1 g |
+| `print/perle_krog_mini_PETG_MK4S_25stk.3mf` | fuld plade, 25 mini PETG-kroge | ca. 3 t 10 min | ca. 102 g |
 
 Den fulde plade er det højeste antal, der kan være på pladen med ca. 3 mm luft mellem krogene.
 Tiderne er uden opvarmning og bed-måling (ca. 3–5 min ekstra).
@@ -168,6 +188,7 @@ PETG rive stykker af belægningen, når krogene tages af. På en **teksturet ell
 | `perle_krog_PLA.stl` | PLA-krogen ("PLA" på ringen). 1 krog, ligger fladt. |
 | `perle_krog_PETG.stl` | PETG-krogen ("PETG" på ringen). 1 krog, ligger fladt. |
 | `perle_krog_lille_PLA.stl` / `perle_krog_lille_PETG.stl` | Den lille udgave. |
+| `perle_krog_mini_PLA.stl` / `perle_krog_mini_PETG.stl` | Mini-udgaven (kun én vej op). |
 | `perle_krog.scad` | Modellen (OpenSCAD). Vælg `variant` øverst i filen. |
 | `print/` | Klar-til-print PrusaSlicer-projekter (3MF) med indstillinger. |
 | `renders/` | Preview-billeder. |
@@ -187,7 +208,8 @@ PETG rive stykker af belægningen, når krogene tages af. På en **teksturet ell
 | Parameter | Værdi | Hvad |
 |---|---|---|
 | `variant` | `"PETG"` / `"PLA"` | Vælger teksten på ringen. Formen er den samme. |
-| `size` | `"stor"` / `"lille"` | Vælger størrelse (lille: ringe Ø 24, gods 6 × 6 mm). |
+| `size` | `"stor"` / `"lille"` / `"mini"` | Vælger størrelse (lille: ringe Ø 24, gods 6 × 6 mm; mini: som lille, men lille hage forneden). |
+| `hook_d`, `hook_tip_a` | 13, 210 | Kun mini: hagens indv. Ø og hvor spidsen slutter (større vinkel = bredere åbning). |
 | `rod_d` | 22,2 | Stangens diameter. Mål en anden stang og skriv tallet her. |
 | `snap_gap` | 20,5 | Åbningen ind i ringene. **For stram at klikke på: 21. For løs: 20.** |
 | `ring_d` | 27 | Ringenes indvendige Ø. |
