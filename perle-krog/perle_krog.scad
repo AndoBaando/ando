@@ -26,33 +26,40 @@
 //   PLA  - "PLA",  haeng max ca. 4 kg
 //   PETG - "PETG", haeng max ca. 4 kg (kryber mindre end PLA)
 //
+//  To stoerrelser (vaelg 'size' herunder), begge passer paa stangen og rionet:
+//   "stor"  - 43 x 86 x 7 mm, haeng max ca. 4 kg
+//   "lille" - 36 x 73 x 6 mm, haeng max ca. 2 kg (ringene kan ikke blive meget
+//             mindre, fordi de stadig skal kunne gaa om stangen paa 22,2 mm)
+//
 //  Maal i mm.  F5 = preview, F6 = render, F7 = eksporter STL.
 //  KOORDINATER: X/Y = krogens plan (pladen), Z = tykkelse (printhoejde)
 // ============================================================
 
 /* [Variant] */
 variant       = "PETG"; // [PETG:PETG-krog, PLA:PLA-krog]
+size          = "stor"; // [stor:Stor (ca. 4 kg), lille:Lille (ca. 2 kg)]
+small         = size == "lille";
 
 /* [Stang og klik-laas] */
 rod_d         = 22.2;  // maalt stang-diameter
-ring_d        = 27;    // indv. Ø i begge ringe (luft om stangen, plads til bundter)
+ring_d        = small ? 24 : 27;    // indv. Ø i begge ringe (luft om stangen, plads til bundter)
 snap_gap      = 20.5;  // aabningen ind i ringen. Mindre end rod_d = klik-laas (22,2 - 20,5 = 1,7 mm)
 
 /* [Perlenet (rionet)] */
 wire_slot_w   = 6.5;   // bredde paa traad-lommen (rionet-traad 5 mm, ribbet)
-wire_slot_d   = 6;     // dybde fra ringens inderside (= hvor meget krogen skal loeftes for at komme af)
-crown_t       = 6;     // gods over lommen (ringen buler lidt ud her)
-crown_fillet  = 3;     // afrunding hvor bulen moeder ringen
+wire_slot_d   = small ? 5 : 6;      // dybde fra ringens inderside (= hvor meget krogen skal loeftes for at komme af)
+crown_t       = small ? 4.5 : 6;    // gods over lommen (ringen buler lidt ud her)
+crown_fillet  = small ? 2.5 : 3;    // afrunding hvor bulen moeder ringen
 
 /* [Profil - styrke vs. materiale] */
-wall          = 8;     // godsbredde i krogens plan (baerer boejningen, styrke ~ bredde^2)
-thick         = 7;     // tykkelse = printhoejde (krogens bredde langs stangen)
+wall          = small ? 6 : 8;      // godsbredde i krogens plan (baerer boejningen, styrke ~ bredde^2)
+thick         = small ? 6 : 7;      // tykkelse = printhoejde (krogens bredde langs stangen)
 edge_chamfer  = 0.6;   // fas paa over-/underkant (skaaner snore + modvirker elefantfod)
 
 /* [Maerkning] */
 label         = variant;  // tekst praeget ned i top-ringen: "PLA" eller "PETG" ("" = ingen)
-label_size    = 4.5;   // skriftstoerrelse
-label_pitch   = 4.1;   // afstand mellem bogstaverne langs buen (mm)
+label_size    = small ? 3.5 : 4.5;  // skriftstoerrelse
+label_pitch   = small ? 3.3 : 4.1;  // afstand mellem bogstaverne langs buen (mm)
 label_angle   = 180;   // placering paa top-ringen (180 = venstre side, der er lukket)
 label_depth   = 0.6;   // dybde (3 lag a 0,2 mm)
 label_font    = "Liberation Sans:style=Bold";
